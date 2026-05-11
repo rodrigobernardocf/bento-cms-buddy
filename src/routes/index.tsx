@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Youtube, Instagram, MapPin, Calendar, ExternalLink, ArrowRight } from "lucide-react";
 import doctorPortrait from "@/assets/doctor-portrait.jpg";
 import clinicInterior from "@/assets/clinic-interior.webp";
+import reabilitacaoBanner from "@/assets/reabilitacao-objetiva-banner.png";
 
 export const Route = createFileRoute("/")({
   component: BentoLanding,
@@ -32,28 +33,18 @@ function BentoLanding() {
         <section className="mt-8 grid grid-cols-2 gap-4">
           {/* Featured course banner */}
           <a
-            href="https://reabilitacaoobjetiva.com.br"
+            href="https://chat.whatsapp.com/HT7tVn2LZku1EZ436IGqhY?mode=gi_t"
             target="_blank"
             rel="noreferrer"
-            className="col-span-2 group relative overflow-hidden rounded-3xl bg-ink p-6 text-brand-foreground shadow-md transition hover:shadow-xl"
-            style={{ background: "oklch(0.18 0.04 260)" }}
+            className="col-span-2 group relative h-64 overflow-hidden rounded-3xl shadow-md transition hover:shadow-xl"
           >
-            <div className="absolute -right-10 top-0 h-full w-1/2 bg-brand opacity-90" />
-            <div className="absolute right-6 top-6 size-16 rounded-full bg-card/95" />
-            <div className="absolute left-6 top-6 flex gap-2">
-              <span className="size-10 rounded-xl bg-card/95" />
-              <span className="size-10 rounded-xl bg-brand" />
-            </div>
-            <div className="relative z-10 mt-24">
-              <h2 className="text-3xl font-bold leading-none">
-                Reabilitação<br />
-                <span className="font-extrabold tracking-tight">OBJETIVA</span>
-              </h2>
-              <p className="mt-2 text-sm opacity-90">Por Dr. João Paulo Neto</p>
-              <p className="mt-3 max-w-sm text-sm opacity-80">
-                Onde os <strong>reabilitadores de excelência</strong> conversam e trocam experiência.
-              </p>
-              <span className="mt-5 inline-flex items-center gap-2 rounded-full bg-card px-5 py-2.5 text-sm font-semibold text-success shadow-sm transition group-hover:gap-3">
+            <img
+              src={reabilitacaoBanner}
+              alt="Reabilitação Objetiva"
+              className="absolute inset-0 size-full object-cover transition duration-500 group-hover:scale-105"
+            />
+            <div className="relative z-10 flex h-full flex-col justify-end p-6">
+              <span className="inline-flex w-fit items-center gap-2 rounded-full bg-card px-5 py-2.5 text-sm font-semibold text-success shadow-sm transition group-hover:gap-3">
                 Quero fazer parte! <ArrowRight className="size-4" />
               </span>
             </div>
@@ -61,7 +52,7 @@ function BentoLanding() {
 
           {/* YouTube */}
           <a
-            href="https://www.youtube.com/@DrJoaoPauloSilvaNeto"
+            href="https://www.youtube.com/channel/UCSpW0K7xSnmNuwTlNqEFLTA"
             target="_blank"
             rel="noreferrer"
             className="rounded-3xl bg-brand-soft p-5 transition hover:scale-[1.02]"
@@ -77,7 +68,7 @@ function BentoLanding() {
 
           {/* Instagram */}
           <a
-            href="https://www.instagram.com/drjoaopaulosneto/"
+            href="https://instagram.com/drjoaopaulosneto"
             target="_blank"
             rel="noreferrer"
             className="rounded-3xl bg-secondary p-5 transition hover:scale-[1.02]"
@@ -118,7 +109,7 @@ function BentoLanding() {
           <div className="col-span-2 rounded-3xl bg-secondary p-6">
             <h3 className="text-2xl font-bold">Localização</h3>
             <a
-              href="https://maps.app.goo.gl/3Xp5n5n5n5n5n5n5"
+              href="https://share.google/0KIFX3jzkqiqjuaSA"
               target="_blank"
               rel="noreferrer"
               className="mt-4 flex items-start gap-3 rounded-2xl bg-card p-4 transition hover:shadow-md"
