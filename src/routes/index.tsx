@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Youtube, Instagram, MapPin, Calendar, ExternalLink, ArrowRight } from "lucide-react";
-import doctorPortrait from "@/assets/doctor-portrait.png";
+import doctorPortrait from "@/assets/doctor-portrait.jpg";
 import clinicInterior from "@/assets/clinic-interior.jpg";
 
 export const Route = createFileRoute("/")({
