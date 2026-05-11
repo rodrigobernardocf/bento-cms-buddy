@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useNavigate, useLocation, redirect } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
-import { LayoutDashboard, FileText, Users, LogOut, Home } from "lucide-react";
+import { LayoutDashboard, FileText, Users, LogOut, Home, LayoutTemplate, Settings } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   beforeLoad: ({ location }) => {
@@ -27,7 +27,9 @@ function AdminLayout() {
 
   const links = [
     { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/admin/bento", label: "Página Inicial", icon: LayoutTemplate },
     { to: "/admin/posts", label: "Posts", icon: FileText },
+    { to: "/admin/settings", label: "Configurações", icon: Settings },
     ...(isAdmin ? [{ to: "/admin/users", label: "Usuários", icon: Users }] : []),
   ];
 
