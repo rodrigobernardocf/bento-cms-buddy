@@ -22,7 +22,7 @@ function BentoLanding() {
               className="size-full py-0 my-0 object-contain px-0 text-xs mx-0"
             />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Dr. João Paulo Neto</h1>
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl text-left">Reabilitador Oral e Mentor de Dentistas</h1>
           <p className="text-base text-muted-foreground">
             Reabilitador Oral · Mentor de Reabilitação Objetiva
           </p>
