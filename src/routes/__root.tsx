@@ -78,9 +78,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Links oficiais do Dr. João Paulo Neto: cursos, redes sociais, agendamento e localização da clínica." },
       { name: "author", content: "Dr. João Paulo Neto" },
       { property: "og:title", content: "Dr. João Paulo Neto — Reabilitação Oral" },
-      { property: "og:description", content: "Reabilitador Oral. Acesse cursos, agendamento e redes sociais." },
+      { property: "og:description", content: "Links oficiais do Dr. João Paulo Neto: cursos, redes sociais, agendamento e localização da clínica." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Dr. João Paulo Neto — Reabilitação Oral" },
+      { name: "twitter:description", content: "Links oficiais do Dr. João Paulo Neto: cursos, redes sociais, agendamento e localização da clínica." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/819e104f-4440-41a1-ab61-59b59098e8e3/id-preview-ae0eed3c--a5c0fd05-20ce-4615-bf09-d51d45725f56.lovable.app-1778508349837.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/819e104f-4440-41a1-ab61-59b59098e8e3/id-preview-ae0eed3c--a5c0fd05-20ce-4615-bf09-d51d45725f56.lovable.app-1778508349837.png" },
     ],
     links: [
       {
