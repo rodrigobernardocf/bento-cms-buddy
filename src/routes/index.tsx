@@ -19,7 +19,7 @@ function BentoLanding() {
               alt="Dr. João Paulo Neto"
               width={768}
               height={768}
-              className="size-full py-0 mx-[2px] my-0 object-contain px-0 text-xs"
+              className="size-full py-0 my-0 object-contain px-0 text-xs mx-0"
             />
           </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Dr. João Paulo Neto</h1>
