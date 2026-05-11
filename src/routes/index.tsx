@@ -24,7 +24,7 @@ function BentoLanding() {
           </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl text-left">Dr. João Paulo Silva-Neto</h1>
           <p className="text-base text-muted-foreground">
-            Reabilitador Oral · Mentor de Reabilitação Objetiva
+            Reabilitador Oral e Mentor de Dentistas
           </p>
         </header>
 
