@@ -1,9 +1,14 @@
-import { createFileRoute, Link, Outlet, useNavigate, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useNavigate, useLocation, redirect } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { LayoutDashboard, FileText, Users, LogOut, Home } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
+  beforeLoad: ({ location }) => {
+    if (location.pathname === "/admin" || location.pathname === "/admin/") {
+      throw redirect({ to: "/admin/dashboard" });
+    }
+  },
   component: AdminLayout,
 });
 
