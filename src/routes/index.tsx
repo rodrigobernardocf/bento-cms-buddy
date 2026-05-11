@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Youtube, Instagram, MapPin, Calendar, ExternalLink, ArrowRight } from "lucide-react";
-import doctorPortrait from "@/assets/doctor-portrait.jpg";
+import doctorPortrait from "@/assets/doctor-portrait.png";
 import clinicInterior from "@/assets/clinic-interior.jpg";
 
 export const Route = createFileRoute("/")({
@@ -19,7 +19,7 @@ function BentoLanding() {
               alt="Dr. João Paulo Neto"
               width={768}
               height={768}
-              className="size-full object-cover"
+              className="size-full py-0 mx-[2px] my-0 object-contain px-0 text-xs"
             />
           </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Dr. João Paulo Neto</h1>
