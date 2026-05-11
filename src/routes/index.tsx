@@ -134,10 +134,7 @@ function BentoLanding() {
         </section>
 
         <footer className="mt-12 flex items-center justify-between text-xs text-muted-foreground">
-          <div className="flex gap-4">
-            <span>© {new Date().getFullYear()} Dr. João Paulo Silva-Neto</span>
-            <Link to="/blog" className="hover:underline font-bold text-brand">Blog</Link>
-          </div>
+          <span>© {new Date().getFullYear()} Dr. João Paulo Silva-Neto</span>
           <Link to="/login" className="hover:underline">Acesso restrito</Link>
         </footer>
       </div>
