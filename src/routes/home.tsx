@@ -37,11 +37,11 @@ function HomePage() {
               </div>
             </div>
             <div className="relative lg:col-span-7">
-              <div className="aspect-[16/9] lg:aspect-[2/1] overflow-hidden rounded-3xl">
+              <div className="overflow-hidden rounded-3xl">
                 <img
                   src={heroPhoto}
                   alt="Dr. João Paulo"
-                  className="h-full w-full object-cover object-top"
+                  className="w-full h-auto block"
                 />
               </div>
             </div>
