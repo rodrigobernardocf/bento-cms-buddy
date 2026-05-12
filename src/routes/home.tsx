@@ -37,11 +37,11 @@ function HomePage() {
               </div>
             </div>
             <div className="relative lg:col-span-7">
-              <div className="aspect-[4/3] lg:aspect-[16/10] overflow-hidden rounded-[3rem] shadow-2xl">
+              <div className="aspect-[16/9] lg:aspect-[2/1] overflow-hidden rounded-3xl">
                 <img
                   src={heroPhoto}
                   alt="Dr. João Paulo"
-                  className="h-full w-full md:w-[120%] md:max-w-none md:-ml-[10%] object-cover object-center py-0 pt-[5px]"
+                  className="h-full w-full object-cover object-center"
                 />
               </div>
             </div>
