@@ -7,7 +7,11 @@ export const Route = createFileRoute("/admin/pages")({
 
 function PagesList() {
   const pages = [
-    { id: 1, title: "Bento (Home)", path: "/", status: "published", updated_at: new Date().toISOString() },
+    { id: 1, title: "Home Clássica", path: "/home", status: "published", updated_at: new Date().toISOString() },
+    { id: 2, title: "Tratamentos", path: "/tratamentos", status: "published", updated_at: new Date().toISOString() },
+    { id: 3, title: "O Especialista", path: "/especialista", status: "published", updated_at: new Date().toISOString() },
+    { id: 4, title: "Blog", path: "/blog", status: "published", updated_at: new Date().toISOString() },
+    { id: 5, title: "Bento (Antiga Home)", path: "/", status: "published", updated_at: new Date().toISOString() },
   ];
 
   return (
