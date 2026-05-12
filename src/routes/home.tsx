@@ -41,7 +41,7 @@ function HomePage() {
                 <img
                   src={heroPhoto}
                   alt="Dr. João Paulo"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full pt-0 pb-0 px-[11px] pr-0 mt-0 mr-[111px] ml-0 pl-0 object-cover"
                 />
               </div>
             </div>
