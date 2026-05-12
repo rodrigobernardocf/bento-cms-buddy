@@ -4,11 +4,15 @@ import doctorPortrait from "@/assets/doctor-portrait.jpg";
 import clinicInterior from "@/assets/clinic-interior.webp";
 import reabilitacaoBanner from "@/assets/reabilitacao-objetiva-banner.png";
 
+import { useSettings } from "@/hooks/useSettings";
+
 export const Route = createFileRoute("/")({
   component: BentoLanding,
 });
 
 function BentoLanding() {
+  const settings = useSettings();
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-2xl px-5 py-10 sm:py-14">
@@ -17,15 +21,15 @@ function BentoLanding() {
           <div className="size-32 overflow-hidden rounded-full ring-4 ring-card shadow-lg">
             <img
               src={doctorPortrait}
-              alt="Dr. João Paulo Silva-Neto"
+              alt={settings.siteName}
               width={768}
               height={768}
               className="size-full py-0 my-0 object-contain px-0 text-xs mx-0"
             />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl text-left">Dr. João Paulo Silva-Neto</h1>
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl text-left">{settings.siteName}</h1>
           <p className="text-base text-muted-foreground">
-            Reabilitador Oral e Mentor de Dentistas
+            {settings.siteDescription}
           </p>
         </header>
 
@@ -87,7 +91,7 @@ function BentoLanding() {
 
           {/* Clinic / agendar */}
           <a
-            href="https://wa.me/5584996455555"
+            href={`https://wa.me/${settings.whatsappNumber}`}
             target="_blank"
             rel="noreferrer"
             className="col-span-2 group relative h-56 overflow-hidden rounded-3xl shadow-md transition hover:shadow-xl"
@@ -125,7 +129,7 @@ function BentoLanding() {
         </section>
 
         <footer className="mt-12 flex items-center justify-between text-xs text-muted-foreground">
-          <span>© {new Date().getFullYear()} Dr. João Paulo Silva-Neto</span>
+          <span>© {new Date().getFullYear()} {settings.siteName}</span>
           <Link to="/login" className="hover:underline">Acesso restrito</Link>
         </footer>
       </div>
