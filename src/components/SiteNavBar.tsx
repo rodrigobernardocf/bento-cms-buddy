@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useSettings } from "@/hooks/useSettings";
+import logoPastel from "@/assets/logo-pastel.png";
 
 export function SiteNavBar() {
   const settings = useSettings();
@@ -8,10 +9,8 @@ export function SiteNavBar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-classic-navy border-b border-white/5">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
-        <Link to="/home" className="flex items-center gap-3">
-          <span className="text-xl font-medium tracking-tight text-white">
-            Dr. João Paulo <span className="font-serif italic font-normal">Neto</span>
-          </span>
+        <Link to="/home" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <img src={logoPastel} alt="Dr. João Paulo Silva-Neto" className="h-10 md:h-12 w-auto object-contain" />
         </Link>
 
         {/* Navigation Links */}
