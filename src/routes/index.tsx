@@ -4,14 +4,31 @@ import doctorPortrait from "@/assets/doctor-portrait.jpg";
 import clinicInterior from "@/assets/clinic-interior.webp";
 import reabilitacaoBanner from "@/assets/reabilitacao-objetiva-banner.png";
 
-import { useSettings } from "@/hooks/useSettings";
+import { useEffect } from "react";
+import { useSettings, DEFAULT_SETTINGS } from "@/hooks/useSettings";
 
 export const Route = createFileRoute("/")({
+  head: () => {
+    const saved = typeof window !== "undefined" ? localStorage.getItem("site-settings") : null;
+    const settings = saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
+    return {
+      meta: [
+        { title: settings.siteName },
+        { name: "description", content: settings.siteDescription },
+        { property: "og:title", content: settings.siteName },
+        { property: "og:description", content: settings.siteDescription },
+      ],
+    };
+  },
   component: BentoLanding,
 });
 
 function BentoLanding() {
   const settings = useSettings();
+
+  useEffect(() => {
+    document.title = settings.siteName;
+  }, [settings.siteName]);
 
   return (
     <main className="min-h-screen bg-background text-foreground">

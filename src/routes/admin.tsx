@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, useNavigate, useLocation, redirect } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
+import { useSettings } from "@/hooks/useSettings";
 import { LayoutDashboard, FileText, Users, LogOut, Home, Layers, Settings } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/admin")({
 
 function AdminLayout() {
   const { user, loading, isAdmin, signOut } = useAuth();
+  const settings = useSettings();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,7 +38,9 @@ function AdminLayout() {
   return (
     <div className="flex min-h-screen bg-background">
       <aside className="flex w-60 flex-col border-r border-border bg-card p-5">
-        <Link to="/" className="mb-8 text-lg font-bold">CMS · Dr. JP</Link>
+        <Link to="/" className="mb-8 text-lg font-bold truncate">
+          CMS · {settings.siteName.split(' ')[0]} {settings.siteName.split(' ')[1] || ''}
+        </Link>
         <nav className="flex-1 space-y-1">
           {links.map(({ to, label, icon: Icon }) => {
             const active = location.pathname.startsWith(to);
