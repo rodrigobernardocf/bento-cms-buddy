@@ -13,7 +13,9 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminPostsRouteImport } from './routes/admin.posts'
+import { Route as AdminPagesRouteImport } from './routes/admin.pages'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminPostsNewRouteImport } from './routes/admin.posts.new'
 
@@ -37,9 +39,19 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPostsRoute = AdminPostsRouteImport.update({
   id: '/posts',
   path: '/posts',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPagesRoute = AdminPagesRouteImport.update({
+  id: '/pages',
+  path: '/pages',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
@@ -58,7 +70,9 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
 }
@@ -67,7 +81,9 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
 }
@@ -77,7 +93,9 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
 }
@@ -88,7 +106,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/admin/dashboard'
+    | '/admin/pages'
     | '/admin/posts'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin/posts/new'
   fileRoutesByTo: FileRoutesByTo
@@ -97,7 +117,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/admin/dashboard'
+    | '/admin/pages'
     | '/admin/posts'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin/posts/new'
   id:
@@ -106,7 +128,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/admin/dashboard'
+    | '/admin/pages'
     | '/admin/posts'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin/posts/new'
   fileRoutesById: FileRoutesById
@@ -147,11 +171,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/posts': {
       id: '/admin/posts'
       path: '/posts'
       fullPath: '/admin/posts'
       preLoaderRoute: typeof AdminPostsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/pages': {
+      id: '/admin/pages'
+      path: '/pages'
+      fullPath: '/admin/pages'
+      preLoaderRoute: typeof AdminPagesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/dashboard': {
@@ -185,13 +223,17 @@ const AdminPostsRouteWithChildren = AdminPostsRoute._addFileChildren(
 
 interface AdminRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminPagesRoute: typeof AdminPagesRoute
   AdminPostsRoute: typeof AdminPostsRouteWithChildren
+  AdminSettingsRoute: typeof AdminSettingsRoute
   AdminUsersRoute: typeof AdminUsersRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminPagesRoute: AdminPagesRoute,
   AdminPostsRoute: AdminPostsRouteWithChildren,
+  AdminSettingsRoute: AdminSettingsRoute,
   AdminUsersRoute: AdminUsersRoute,
 }
 
