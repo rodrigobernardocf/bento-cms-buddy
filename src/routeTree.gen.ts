@@ -9,7 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TratamentosRouteImport } from './routes/tratamentos'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as HomeRouteImport } from './routes/home'
+import { Route as EspecialistaRouteImport } from './routes/especialista'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as AgendarRouteImport } from './routes/agendar'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
@@ -18,20 +23,20 @@ import { Route as AdminPostsRouteImport } from './routes/admin.posts'
 import { Route as AdminPagesRouteImport } from './routes/admin.pages'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminPostsNewRouteImport } from './routes/admin.posts.new'
-import { Route as HomeRouteImport } from './routes/home'
-import { Route as BlogRouteImport } from './routes/blog'
-import { Route as EspecialistaRouteImport } from './routes/especialista'
-import { Route as TratamentosRouteImport } from './routes/tratamentos'
-import { Route as AgendarRouteImport } from './routes/agendar'
 
+const TratamentosRoute = TratamentosRouteImport.update({
+  id: '/tratamentos',
+  path: '/tratamentos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HomeRoute = HomeRouteImport.update({
   id: '/home',
   path: '/home',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EspecialistaRoute = EspecialistaRouteImport.update({
@@ -39,20 +44,14 @@ const EspecialistaRoute = EspecialistaRouteImport.update({
   path: '/especialista',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TratamentosRoute = TratamentosRouteImport.update({
-  id: '/tratamentos',
-  path: '/tratamentos',
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgendarRoute = AgendarRouteImport.update({
   id: '/agendar',
   path: '/agendar',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -99,121 +98,156 @@ const AdminPostsNewRoute = AdminPostsNewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/agendar': typeof AgendarRoute
+  '/blog': typeof BlogRoute
+  '/especialista': typeof EspecialistaRoute
+  '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/tratamentos': typeof TratamentosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
-  '/home': typeof HomeRoute
-  '/blog': typeof BlogRoute
-  '/especialista': typeof EspecialistaRoute
-  '/tratamentos': typeof TratamentosRoute
-  '/agendar': typeof AgendarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/agendar': typeof AgendarRoute
+  '/blog': typeof BlogRoute
+  '/especialista': typeof EspecialistaRoute
+  '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/tratamentos': typeof TratamentosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
-  '/home': typeof HomeRoute
-  '/blog': typeof BlogRoute
-  '/especialista': typeof EspecialistaRoute
-  '/tratamentos': typeof TratamentosRoute
-  '/agendar': typeof AgendarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/agendar': typeof AgendarRoute
+  '/blog': typeof BlogRoute
+  '/especialista': typeof EspecialistaRoute
+  '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/tratamentos': typeof TratamentosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
-  '/home': typeof HomeRoute
-  '/blog': typeof BlogRoute
-  '/especialista': typeof EspecialistaRoute
-  '/tratamentos': typeof TratamentosRoute
-  '/agendar': typeof AgendarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/admin'
+    | '/agendar'
+    | '/blog'
+    | '/especialista'
+    | '/home'
     | '/login'
+    | '/tratamentos'
     | '/admin/dashboard'
     | '/admin/pages'
     | '/admin/posts'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/posts/new'
-    | '/home'
-    | '/blog'
-    | '/especialista'
-    | '/tratamentos'
-    | '/agendar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
+    | '/agendar'
+    | '/blog'
+    | '/especialista'
+    | '/home'
     | '/login'
+    | '/tratamentos'
     | '/admin/dashboard'
     | '/admin/pages'
     | '/admin/posts'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/posts/new'
-    | '/home'
-    | '/blog'
-    | '/especialista'
-    | '/tratamentos'
-    | '/agendar'
   id:
     | '__root__'
     | '/'
     | '/admin'
+    | '/agendar'
+    | '/blog'
+    | '/especialista'
+    | '/home'
     | '/login'
+    | '/tratamentos'
     | '/admin/dashboard'
     | '/admin/pages'
     | '/admin/posts'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/posts/new'
-    | '/home'
-    | '/blog'
-    | '/especialista'
-    | '/tratamentos'
-    | '/agendar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  LoginRoute: typeof LoginRoute
-  HomeRoute: typeof HomeRoute
+  AgendarRoute: typeof AgendarRoute
   BlogRoute: typeof BlogRoute
   EspecialistaRoute: typeof EspecialistaRoute
+  HomeRoute: typeof HomeRoute
+  LoginRoute: typeof LoginRoute
   TratamentosRoute: typeof TratamentosRoute
-  AgendarRoute: typeof AgendarRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tratamentos': {
+      id: '/tratamentos'
+      path: '/tratamentos'
+      fullPath: '/tratamentos'
+      preLoaderRoute: typeof TratamentosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/especialista': {
+      id: '/especialista'
+      path: '/especialista'
+      fullPath: '/especialista'
+      preLoaderRoute: typeof EspecialistaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agendar': {
+      id: '/agendar'
+      path: '/agendar'
+      fullPath: '/agendar'
+      preLoaderRoute: typeof AgendarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -272,41 +306,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPostsNewRouteImport
       parentRoute: typeof AdminPostsRoute
     }
-    '/home': {
-      id: '/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof HomeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/especialista': {
-      id: '/especialista'
-      path: '/especialista'
-      fullPath: '/especialista'
-      preLoaderRoute: typeof EspecialistaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tratamentos': {
-      id: '/tratamentos'
-      path: '/tratamentos'
-      fullPath: '/tratamentos'
-      preLoaderRoute: typeof TratamentosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/agendar': {
-      id: '/agendar'
-      path: '/agendar'
-      fullPath: '/agendar'
-      preLoaderRoute: typeof AgendarRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -343,12 +342,12 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  LoginRoute: LoginRoute,
-  HomeRoute: HomeRoute,
+  AgendarRoute: AgendarRoute,
   BlogRoute: BlogRoute,
   EspecialistaRoute: EspecialistaRoute,
+  HomeRoute: HomeRoute,
+  LoginRoute: LoginRoute,
   TratamentosRoute: TratamentosRoute,
-  AgendarRoute: AgendarRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
