@@ -14,40 +14,40 @@ function HomePage() {
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative overflow-hidden px-6 py-24 md:py-32">
-          <div className="absolute inset-0 z-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <section className="relative overflow-hidden px-6 py-24 md:py-32 bg-classic-wine text-white">
+          <div className="absolute inset-0 z-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           <div className="mx-auto max-w-7xl grid gap-12 lg:grid-cols-2 items-center relative z-10">
             <div className="max-w-2xl">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-classic-brown/80">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel/90">
                 Referência em Prótese & Implantes
               </span>
-              <h1 className="mt-4 text-5xl md:text-7xl font-medium tracking-tight text-classic-navy leading-[1.1]">
+              <h1 className="mt-4 text-5xl md:text-7xl font-medium tracking-tight text-white leading-[1.1]">
                 A Reabilitação <br />
                 <span className="font-serif italic text-classic-pastel text-6xl md:text-8xl">Objetiva</span>
               </h1>
-              <p className="mt-6 text-lg text-classic-navy/70 max-w-lg leading-relaxed">
+              <p className="mt-6 text-lg text-white/80 max-w-lg leading-relaxed">
                 Sua saúde bucal em mãos de quem une o rigor acadêmico da UNICAMP com 15 anos de excelência clínica.
               </p>
               <div className="mt-10">
                 <a
                   href="/agendar"
-                  className="inline-flex items-center gap-3 rounded-full bg-classic-pastel px-8 py-4 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-classic-brown"
+                  className="inline-flex items-center gap-3 rounded-full bg-classic-navy px-8 py-4 text-xs font-bold uppercase tracking-widest text-white shadow-xl transition hover:bg-white hover:text-classic-navy"
                 >
                   Agendar Avaliação &rarr;
                 </a>
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square overflow-hidden rounded-[3rem] bg-classic-pastel/20">
+              <div className="aspect-square overflow-hidden rounded-[3rem] bg-classic-navy/40 border border-white/10">
                 <img
                   src={clinicInterior}
                   alt="Clínica"
-                  className="h-full w-full object-cover grayscale mix-blend-multiply opacity-80"
+                  className="h-full w-full object-cover mix-blend-overlay opacity-90"
                 />
               </div>
-              <div className="absolute top-8 right-8 rounded-2xl bg-white p-5 shadow-xl">
+              <div className="absolute top-8 right-8 rounded-2xl bg-white p-5 shadow-2xl">
                 <div className="flex flex-col gap-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-classic-navy mb-2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-classic-wine mb-2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
                   <span className="text-xs font-bold text-classic-navy">Implantes & Estética</span>
                   <span className="text-[10px] text-classic-navy/60">Avançada</span>
                 </div>
@@ -79,7 +79,7 @@ function HomePage() {
         </section>
 
         {/* Sobre Section */}
-        <section className="py-24 px-6">
+        <section className="py-24 px-6 bg-classic-pastel/10">
           <div className="mx-auto max-w-5xl flex flex-col md:flex-row items-center gap-16">
             <div className="flex-1">
               <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-classic-navy">
@@ -114,13 +114,13 @@ function HomePage() {
             <p className="mt-4 text-lg text-classic-navy/60">Seja para um novo sorriso ou uma nova carreira acadêmica, estamos aqui.</p>
             
             <div className="mt-16 grid gap-6 md:grid-cols-2">
-              <div className="flex flex-col items-center justify-center rounded-[3rem] border border-classic-navy/10 bg-classic-light p-12 transition hover:shadow-lg">
-                <div className="rounded-full bg-green-100 p-4 text-green-600 mb-6">
+              <div className="flex flex-col items-center justify-center rounded-[3rem] border border-white/10 bg-classic-wine p-12 text-white transition hover:shadow-xl hover:bg-classic-wine/90">
+                <div className="rounded-full bg-white/10 p-4 text-white mb-6">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                 </div>
-                <h3 className="text-2xl font-serif italic text-classic-navy">Agendamento Clínico</h3>
-                <p className="mt-2 text-sm text-classic-navy/60">Consultas presenciais para pacientes em Natal/RN</p>
-                <a href="/agendar" className="mt-8 text-[11px] font-bold uppercase tracking-widest text-classic-navy transition hover:text-classic-brown">Falar com Equipe</a>
+                <h3 className="text-2xl font-serif italic">Agendamento Clínico</h3>
+                <p className="mt-2 text-sm text-white/60">Consultas presenciais para pacientes em Natal/RN</p>
+                <a href="/agendar" className="mt-8 text-[11px] font-bold uppercase tracking-widest text-white transition hover:text-classic-pastel">Falar com Equipe</a>
               </div>
 
               <div className="flex flex-col items-center justify-center rounded-[3rem] bg-classic-navy p-12 text-white transition hover:bg-classic-navy/90 shadow-xl">
