@@ -14,35 +14,35 @@ function HomePage() {
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative overflow-hidden px-6 py-24 md:py-32 bg-classic-wine text-white">
-          <div className="absolute inset-0 z-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <section className="relative overflow-hidden px-6 py-24 md:py-32 bg-classic-light text-classic-navy">
+          <div className="absolute inset-0 z-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
           <div className="mx-auto max-w-7xl grid gap-12 lg:grid-cols-2 items-center relative z-10">
             <div className="max-w-2xl">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel/90">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-classic-brown/90">
                 Referência em Prótese & Implantes
               </span>
-              <h1 className="mt-4 text-5xl md:text-7xl font-medium tracking-tight text-white leading-[1.1]">
+              <h1 className="mt-4 text-5xl md:text-7xl font-medium tracking-tight text-classic-navy leading-[1.1]">
                 A Reabilitação <br />
-                <span className="font-serif italic text-classic-pastel text-6xl md:text-8xl">Objetiva</span>
+                <span className="font-serif italic text-classic-brown text-6xl md:text-8xl">Objetiva</span>
               </h1>
-              <p className="mt-6 text-lg text-white/80 max-w-lg leading-relaxed">
+              <p className="mt-6 text-lg text-classic-navy/80 max-w-lg leading-relaxed">
                 Sua saúde bucal em mãos de quem une o rigor acadêmico da UNICAMP com 15 anos de excelência clínica.
               </p>
               <div className="mt-10">
                 <a
                   href="/agendar"
-                  className="inline-flex items-center gap-3 rounded-full bg-classic-navy px-8 py-4 text-xs font-bold uppercase tracking-widest text-white shadow-xl transition hover:bg-white hover:text-classic-navy"
+                  className="inline-flex items-center gap-3 rounded-full bg-classic-wine px-8 py-4 text-xs font-bold uppercase tracking-widest text-white shadow-xl transition hover:bg-classic-navy hover:text-white"
                 >
                   Agendar Avaliação &rarr;
                 </a>
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square overflow-hidden rounded-[3rem] bg-classic-navy/40 border border-white/10">
+              <div className="aspect-square overflow-hidden rounded-[3rem] bg-classic-pastel/20 border border-classic-navy/10">
                 <img
                   src={clinicInterior}
                   alt="Clínica"
-                  className="h-full w-full object-cover mix-blend-overlay opacity-90"
+                  className="h-full w-full object-cover grayscale mix-blend-multiply opacity-80"
                 />
               </div>
               <div className="absolute top-8 right-8 rounded-2xl bg-white p-5 shadow-2xl">
