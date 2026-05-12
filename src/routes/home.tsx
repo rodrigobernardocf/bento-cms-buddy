@@ -15,8 +15,8 @@ function HomePage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden px-6 py-24 md:py-32 bg-classic-light text-classic-navy">
           <div className="absolute inset-0 z-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
-          <div className="mx-auto max-w-7xl grid gap-12 lg:grid-cols-2 items-center relative z-10">
-            <div className="max-w-2xl">
+          <div className="mx-auto max-w-7xl grid gap-12 lg:grid-cols-12 items-center relative z-10">
+            <div className="max-w-2xl lg:col-span-5">
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-classic-brown/90">
                 Referência em Prótese & Implantes
               </span>
@@ -36,8 +36,8 @@ function HomePage() {
                 </a>
               </div>
             </div>
-            <div className="relative">
-              <div className="aspect-square overflow-hidden rounded-[3rem] shadow-2xl">
+            <div className="relative lg:col-span-7">
+              <div className="aspect-[4/3] lg:aspect-[16/10] overflow-hidden rounded-[3rem] shadow-2xl">
                 <img
                   src={heroPhoto}
                   alt="Dr. João Paulo"
