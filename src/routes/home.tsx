@@ -42,7 +42,7 @@ function HomePage() {
                 <img
                   src={clinicInterior}
                   alt="Clínica"
-                  className="h-full w-full object-cover grayscale mix-blend-multiply opacity-80"
+                  className="h-full w-full object-cover grayscale mix-blend-multiply opacity-100"
                 />
               </div>
               <div className="absolute top-8 right-8 rounded-2xl bg-white p-5 shadow-2xl">
