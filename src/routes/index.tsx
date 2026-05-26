@@ -138,7 +138,7 @@ function BentoLanding() {
               <MapPin className="mt-0.5 size-5 text-brand" />
               <div className="flex-1">
                 <p className="font-semibold">Scientiart Odontologia</p>
-                <p className="text-sm text-muted-foreground">Clínica Odontológica · Parnamirim, RN</p>
+                <p className="text-sm text-muted-foreground">Av. Rodrigues Alves, 800, 1º Andar - Sala 109 - Tirol, Natal</p>
               </div>
               <ExternalLink className="size-4 text-muted-foreground" />
             </a>
