@@ -4,4 +4,8 @@
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
+  "alias": {
+    "tanstack-start-manifest:v": "./src/stubs/tanstack-start-manifest.ts",
+    "tanstack-start-injected-head-scripts:v": "./src/stubs/tanstack-start-head-scripts.ts"
+  }
 }
