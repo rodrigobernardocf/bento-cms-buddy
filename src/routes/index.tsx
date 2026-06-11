@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Youtube, Instagram, MapPin, Calendar, ExternalLink, ArrowRight } from "lucide-react";
+import { Youtube, Instagram, MapPin, Calendar, ExternalLink, ArrowRight, GraduationCap } from "lucide-react";
 import doctorPortrait from "@/assets/doctor-portrait.jpg";
 import clinicInterior from "@/assets/clinic-interior.webp";
 import reabilitacaoBanner from "@/assets/reabilitacao-objetiva-banner.png";
@@ -67,6 +67,31 @@ function BentoLanding() {
             <div className="relative z-10 flex h-full flex-col justify-end p-6">
               <span className="inline-flex w-fit items-center gap-2 rounded-full bg-card px-5 py-2.5 text-sm font-semibold text-success shadow-sm transition group-hover:gap-3">
                 Quero fazer parte! <ArrowRight className="size-4" />
+              </span>
+            </div>
+          </a>
+
+          {/* RO Online — curso */}
+          <a
+            href="#TODO_LINK_CURSO"
+            target="_blank"
+            rel="noreferrer"
+            className="col-span-2 flex items-center justify-between gap-4 rounded-3xl bg-[oklch(0.18_0.02_250)] p-6 transition hover:scale-[1.01] hover:shadow-xl"
+          >
+            <div className="flex items-center gap-4">
+              <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-white">
+                <GraduationCap className="size-7" />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-white/50">Curso Online</p>
+                <p className="mt-0.5 text-lg font-bold leading-tight text-white">Reabilitação Objetiva</p>
+                <p className="text-sm text-white/60">Aprenda o método completo no seu ritmo</p>
+              </div>
+            </div>
+            <div className="flex shrink-0 flex-col items-end gap-2">
+              <span className="text-2xl font-bold text-white">R$997</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white transition group-hover:gap-2">
+                Acessar <ArrowRight className="size-3" />
               </span>
             </div>
           </a>
