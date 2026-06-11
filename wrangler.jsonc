@@ -3,10 +3,10 @@
   "name": "bento-cms-buddy",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "src/server.ts",
-  "alias": {
-    "#tanstack-router-entry": "./src/router",
-    "#tanstack-start-entry": "./src/start",
-    "#tanstack-start-plugin-adapters": "./src/stubs/tanstack-plugin-adapters.js"
+  "main": ".output/server/index.mjs",
+  "no_bundle": true,
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".output/public"
   }
 }
