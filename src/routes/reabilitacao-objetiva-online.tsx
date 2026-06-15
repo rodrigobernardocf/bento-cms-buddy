@@ -11,6 +11,8 @@ import {
   Award,
 } from "lucide-react";
 import doctorPortrait from "@/assets/doctor-portrait.jpg";
+import heroCima from "@/assets/hero/hero-cima.jpg";
+import heroBaixo from "@/assets/hero/hero-baixo.jpg";
 import cursomockup from "@/assets/mockup/curso-mockup.png";
 import caso1Antes from "@/assets/casos/caso1-antes.jpg";
 import caso1Depois from "@/assets/casos/caso1-depois.jpg";
@@ -124,41 +126,62 @@ function CursoPage() {
     <div className="min-h-screen bg-classic-light font-sans text-classic-navy">
 
       {/* ── HERO ── */}
-      <section className="bg-classic-navy text-white pt-16 pb-24 px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel mb-5">
-            Curso Online · Dr. João Paulo Silva-Neto
-          </span>
-          <h1 className="text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight">
-            Chega de improvisar em{" "}
-            <span className="text-classic-pastel">reabilitação oral.</span>
-          </h1>
-          <p className="mt-6 text-lg text-white/60 leading-relaxed max-w-xl mx-auto">
-            Aprenda a conduzir qualquer caso com previsibilidade — do diagnóstico à proservação.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href={HOTMART_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-classic-pastel px-8 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90"
-            >
-              Quero minha vaga <ArrowRight className="size-4" />
-            </a>
-            <a
-              href="#modulos"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-medium text-white/70 transition hover:bg-white/10"
-            >
-              Ver o conteúdo
-            </a>
-          </div>
-          <div className="mt-10 flex flex-wrap gap-6 text-sm text-white/40 justify-center">
-            <span className="flex items-center gap-1.5"><Clock className="size-4" /> 30h de conteúdo</span>
-            <span className="flex items-center gap-1.5"><BookOpen className="size-4" /> 8 módulos</span>
-            <span className="flex items-center gap-1.5"><Award className="size-4" /> Acesso vitalício</span>
-          </div>
+      <div>
+        {/* Foto de cima */}
+        <div className="h-64 md:h-80 overflow-hidden">
+          <img
+            src={heroCima}
+            alt=""
+            className="w-full h-full object-cover object-center"
+          />
         </div>
-      </section>
+
+        {/* Texto */}
+        <section className="bg-classic-navy text-white py-16 px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel mb-5">
+              Curso Online · Dr. João Paulo Silva-Neto
+            </span>
+            <h1 className="text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight">
+              Chega de improvisar em{" "}
+              <span className="text-classic-pastel">reabilitação oral.</span>
+            </h1>
+            <p className="mt-6 text-lg text-white/60 leading-relaxed max-w-xl mx-auto">
+              Aprenda a conduzir qualquer caso com previsibilidade — do diagnóstico à proservação.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+              <a
+                href={HOTMART_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-classic-pastel px-8 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90"
+              >
+                Quero minha vaga <ArrowRight className="size-4" />
+              </a>
+              <a
+                href="#modulos"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-medium text-white/70 transition hover:bg-white/10"
+              >
+                Ver o conteúdo
+              </a>
+            </div>
+            <div className="mt-10 flex flex-wrap gap-6 text-sm text-white/40 justify-center">
+              <span className="flex items-center gap-1.5"><Clock className="size-4" /> 30h de conteúdo</span>
+              <span className="flex items-center gap-1.5"><BookOpen className="size-4" /> 8 módulos</span>
+              <span className="flex items-center gap-1.5"><Award className="size-4" /> Acesso vitalício</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Foto de baixo */}
+        <div className="h-64 md:h-80 overflow-hidden">
+          <img
+            src={heroBaixo}
+            alt=""
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+      </div>
 
       {/* ── DEPOIMENTOS ── */}
       <section className="bg-classic-light py-20 px-6">
@@ -297,7 +320,7 @@ function CursoPage() {
             Resultados reais
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-center text-classic-navy mb-3">
-            Casos tratados com o método
+            Alguns casos tratados com o método
           </h2>
           <p className="text-center text-classic-navy/40 text-sm mb-12">
             Casos clínicos do Dr. João Paulo Silva-Neto · CRO/RN 3271
