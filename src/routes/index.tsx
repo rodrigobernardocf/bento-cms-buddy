@@ -73,7 +73,7 @@ function BentoLanding() {
 
           {/* RO Online — curso */}
           <a
-            href="https://pay.hotmart.com/U102790539J"
+            href="/reabilitacao-objetiva-online"
             target="_blank"
             rel="noreferrer"
             className="col-span-2 flex items-center justify-between gap-4 rounded-3xl bg-[oklch(0.18_0.02_250)] p-6 transition hover:scale-[1.01] hover:shadow-xl"
