@@ -137,7 +137,7 @@ function CursoPage() {
             <div className="mt-8 flex flex-wrap gap-5 text-sm text-white/40">
               <span className="flex items-center gap-1.5"><Clock className="size-4" /> 30h de conteúdo</span>
               <span className="flex items-center gap-1.5"><BookOpen className="size-4" /> 8 módulos</span>
-              <span className="flex items-center gap-1.5"><Award className="size-4" /> Acesso vitalício</span>
+              <span className="flex items-center gap-1.5"><Award className="size-4" /> </span>
             </div>
           </div>
           <div className="relative">
@@ -158,7 +158,7 @@ function CursoPage() {
             Quem já aplicou o método
           </p>
           <h2 className="text-2xl md:text-3xl font-bold text-center text-classic-navy mb-12">
-            O que os alunos dizem
+            O que os alunos dizem:
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {depoimentos.map((t) => (
