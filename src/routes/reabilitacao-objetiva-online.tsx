@@ -109,7 +109,7 @@ function CursoPage() {
         <div className="mx-auto max-w-5xl grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel mb-5">
-              Curso Online · Dr. João Paulo Silva-Neto
+              CONHEÇA O CURSO:
             </span>
             <h1 className="text-4xl md:text-5xl font-bold leading-[1.15] tracking-tight">
               Chega de improvisar em{" "}
