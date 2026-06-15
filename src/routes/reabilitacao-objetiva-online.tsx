@@ -125,18 +125,12 @@ function CursoPage() {
   return (
     <div className="min-h-screen bg-classic-light font-sans text-classic-navy">
 
-      {/* ── HERO ── */}
+      {/* ── 1. HERO — dark ── */}
       <div>
-        {/* Foto de cima */}
         <div className="bg-classic-navy h-48 md:h-64 overflow-hidden">
-          <img
-            src={heroCima}
-            alt=""
-            className="w-full h-full object-cover object-bottom"
-          />
+          <img src={heroCima} alt="" fetchPriority="high" decoding="async"
+            className="w-full h-full object-cover object-bottom" />
         </div>
-
-        {/* Texto */}
         <section className="bg-classic-navy text-white pt-6 pb-8 px-6">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel mb-3">
@@ -150,18 +144,12 @@ function CursoPage() {
               Aprenda a conduzir qualquer caso com previsibilidade — do diagnóstico à proservação.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-              <a
-                href={HOTMART_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-classic-pastel px-8 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90"
-              >
+              <a href={HOTMART_URL} target="_blank" rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-classic-pastel px-8 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90">
                 Quero minha vaga <ArrowRight className="size-4" />
               </a>
-              <a
-                href="#modulos"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-medium text-white/70 transition hover:bg-white/10"
-              >
+              <a href="#modulos"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-medium text-white/70 transition hover:bg-white/10">
                 Ver o conteúdo
               </a>
             </div>
@@ -171,53 +159,119 @@ function CursoPage() {
             </div>
           </div>
         </section>
-
-        {/* Foto de baixo */}
         <div className="bg-classic-navy h-48 md:h-64 overflow-hidden">
-          <img
-            src={heroBaixo}
-            alt=""
-            className="w-full h-full object-cover object-top"
-          />
+          <img src={heroBaixo} alt="" fetchPriority="high" decoding="async"
+            className="w-full h-full object-cover object-top" />
         </div>
       </div>
 
-      {/* ── DEPOIMENTOS ── */}
+      {/* ── 2. CASOS — light ── */}
       <section className="bg-classic-light py-20 px-6">
         <div className="mx-auto max-w-5xl">
-          <p className="text-xs font-bold uppercase tracking-widest text-classic-brown text-center mb-3">
-            Quem já aplicou o método
-          </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-classic-navy mb-12">
-            O que os alunos dizem:
+          <p className="text-xs font-bold uppercase tracking-widest text-classic-brown text-center mb-3">Resultados reais</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-classic-navy mb-3">
+            Alguns casos tratados com o método
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {depoimentos.map((t) => (
-              <div key={t.name} className="bg-white rounded-2xl p-6 border border-classic-navy/5 shadow-sm flex flex-col">
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="size-4 fill-classic-brown text-classic-brown" />
-                  ))}
-                </div>
-                <p className="text-sm text-classic-navy/70 leading-relaxed italic flex-1">"{t.text}"</p>
-                <div className="flex items-center gap-3 mt-5 pt-4 border-t border-classic-navy/5">
-                  <div className="size-9 rounded-full bg-classic-pastel/40 flex items-center justify-center text-classic-navy font-bold text-sm shrink-0">
-                    {t.inicial}
+          <p className="text-center text-classic-navy/40 text-sm mb-12">
+            Casos clínicos do Dr. João Paulo Silva-Neto · CRO/RN 3271
+          </p>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { antes: caso1Antes, depois: caso1Depois },
+              { antes: caso2Antes, depois: caso2Depois },
+              { antes: caso3Antes, depois: caso3Depois },
+            ].map((c, i) => (
+              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-classic-navy/5 shadow-sm">
+                <div className="grid grid-cols-2 divide-x divide-classic-navy/10">
+                  <div className="p-3">
+                    <p className="text-xs font-bold uppercase tracking-widest text-classic-navy/30 mb-3 text-center">Antes</p>
+                    <img src={c.antes} alt="antes" loading="lazy" decoding="async" className="w-full rounded-lg object-contain" />
                   </div>
-                  <span className="text-sm font-semibold text-classic-navy">{t.name}</span>
+                  <div className="p-3">
+                    <p className="text-xs font-bold uppercase tracking-widest text-classic-brown mb-3 text-center">Depois</p>
+                    <img src={c.depois} alt="depois" loading="lazy" decoding="async" className="w-full rounded-lg object-contain" />
+                  </div>
                 </div>
               </div>
             ))}
           </div>
+          <div className="mt-12 text-center">
+            <a href={HOTMART_URL} target="_blank" rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-classic-navy px-8 py-4 text-sm font-bold text-white shadow-lg transition hover:bg-classic-wine">
+              Quero minha vaga <ArrowRight className="size-4" />
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* ── O PROBLEMA ── */}
+      {/* ── 3. DEPOIMENTOS — dark ── */}
+      <section className="bg-classic-navy py-20 px-6 text-white">
+        <div className="mx-auto max-w-5xl">
+          <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel text-center mb-3">Quem já aplicou o método</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">O que os alunos dizem</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {depoimentos.map((t) => (
+              <div key={t.name} className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col">
+                <div className="flex gap-0.5 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="size-4 fill-classic-pastel text-classic-pastel" />
+                  ))}
+                </div>
+                <p className="text-sm text-white/70 leading-relaxed italic flex-1">"{t.text}"</p>
+                <div className="flex items-center gap-3 mt-5 pt-4 border-t border-white/10">
+                  <div className="size-9 rounded-full bg-classic-pastel/20 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                    {t.inicial}
+                  </div>
+                  <span className="text-sm font-semibold text-white/80">{t.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <a href={HOTMART_URL} target="_blank" rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-classic-pastel px-8 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90">
+              Quero minha vaga <ArrowRight className="size-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 4. MÓDULOS — light ── */}
+      <section id="modulos" className="bg-classic-light py-20 px-6">
+        <div className="mx-auto max-w-5xl">
+          <p className="text-xs font-bold uppercase tracking-widest text-classic-brown text-center mb-3">Conteúdo</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-classic-navy mb-3">8 módulos do início ao fim</h2>
+          <p className="text-center text-classic-navy/50 text-sm mb-12">30 horas de conteúdo · Casos reais</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {modulos.map((mod) => (
+              <div key={mod.num} className="group rounded-2xl overflow-hidden shadow-sm border border-classic-navy/5 bg-white">
+                <div className="relative overflow-hidden">
+                  <img src={mod.img} alt={mod.title} loading="lazy" decoding="async"
+                    className="w-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                  <span className="absolute top-2 left-2 bg-classic-navy/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                    {mod.num}
+                  </span>
+                </div>
+                <div className="p-3">
+                  <p className="font-bold text-classic-navy text-sm leading-tight">{mod.title}</p>
+                  <p className="text-xs text-classic-navy/50 mt-0.5">{mod.sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <a href={HOTMART_URL} target="_blank" rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-classic-navy px-8 py-4 text-sm font-bold text-white shadow-lg transition hover:bg-classic-wine">
+              Quero minha vaga <ArrowRight className="size-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. PROBLEMA — dark ── */}
       <section className="bg-classic-navy py-20 px-6 text-white">
         <div className="mx-auto max-w-4xl">
-          <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel text-center mb-3">
-            Você se reconhece aqui?
-          </p>
+          <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel text-center mb-3">Você se reconhece aqui?</p>
           <h2 className="text-3xl md:text-4xl font-bold text-center leading-tight mb-12">
             A maioria dos dentistas trata reabilitação{" "}
             <span className="text-classic-pastel/70">no improviso</span>
@@ -237,55 +291,24 @@ function CursoPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── MÓDULOS ── */}
-      <section id="modulos" className="bg-classic-light py-20 px-6">
-        <div className="mx-auto max-w-5xl">
-          <p className="text-xs font-bold uppercase tracking-widest text-classic-brown text-center mb-3">
-            Conteúdo
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-classic-navy mb-3">
-            8 módulos do início ao fim
-          </h2>
-          <p className="text-center text-classic-navy/50 text-sm mb-12">
-            30 horas de conteúdo · Casos reais · Acesso vitalício
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {modulos.map((mod) => (
-              <div key={mod.num} className="group rounded-2xl overflow-hidden shadow-sm border border-classic-navy/5 bg-white">
-                <div className="relative overflow-hidden">
-                  <img
-                    src={mod.img}
-                    alt={mod.title}
-                    className="w-full object-contain group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <span className="absolute top-2 left-2 bg-classic-navy/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                    {mod.num}
-                  </span>
-                </div>
-                <div className="p-3">
-                  <p className="font-bold text-classic-navy text-sm leading-tight">{mod.title}</p>
-                  <p className="text-xs text-classic-navy/50 mt-0.5">{mod.sub}</p>
-                </div>
-              </div>
-            ))}
+          <div className="mt-12 text-center">
+            <a href={HOTMART_URL} target="_blank" rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-classic-pastel px-8 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90">
+              Quero minha vaga <ArrowRight className="size-4" />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ── PREVIEW DO CURSO ── */}
-      <section className="bg-classic-navy py-20 px-6 text-white">
+      {/* ── 6. PREVIEW — light ── */}
+      <section className="bg-classic-light py-20 px-6">
         <div className="mx-auto max-w-5xl grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel mb-3">
-              Dentro da plataforma
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
+            <p className="text-xs font-bold uppercase tracking-widest text-classic-brown mb-3">Dentro da plataforma</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-classic-navy mb-6 leading-tight">
               30 horas de conteúdo exclusivo
             </h2>
-            <div className="space-y-4 text-white/60 text-sm leading-relaxed">
+            <div className="space-y-4 text-classic-navy/60 text-sm leading-relaxed">
               <p>Aulas gravadas em alta qualidade com o Dr. João Paulo ensinando ao vivo o raciocínio clínico por trás de cada decisão.</p>
               <p>Disponível na Hotmart — assiste no celular, tablet ou computador, quando e onde quiser.</p>
             </div>
@@ -295,91 +318,56 @@ function CursoPage() {
                 { val: "8", label: "módulos" },
                 { val: "∞", label: "acesso" },
               ].map((s) => (
-                <div key={s.label} className="rounded-2xl bg-white/5 border border-white/10 py-4 px-2">
-                  <p className="text-3xl font-black text-classic-pastel">{s.val}</p>
-                  <p className="text-xs text-white/40 mt-1">{s.label}</p>
+                <div key={s.label} className="rounded-2xl bg-classic-navy/5 border border-classic-navy/10 py-4 px-2">
+                  <p className="text-3xl font-black text-classic-navy">{s.val}</p>
+                  <p className="text-xs text-classic-navy/40 mt-1">{s.label}</p>
                 </div>
               ))}
             </div>
+            <div className="mt-8">
+              <a href={HOTMART_URL} target="_blank" rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-classic-navy px-8 py-4 text-sm font-bold text-white shadow-lg transition hover:bg-classic-wine">
+                Quero minha vaga <ArrowRight className="size-4" />
+              </a>
+            </div>
           </div>
           <div className="flex justify-center">
-            <img
-              src={cursomockup}
-              alt="Curso Reabilitação Objetiva — plataforma"
-              className="w-full max-w-sm drop-shadow-2xl"
-            />
+            <img src={cursomockup} alt="Curso Reabilitação Objetiva — plataforma"
+              loading="lazy" decoding="async" className="w-full max-w-sm drop-shadow-2xl" />
           </div>
         </div>
       </section>
 
-      {/* ── CASOS CLÍNICOS ── */}
-      <section className="bg-classic-light py-20 px-6">
-        <div className="mx-auto max-w-5xl">
-          <p className="text-xs font-bold uppercase tracking-widest text-classic-brown text-center mb-3">
-            Resultados reais
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-classic-navy mb-3">
-            Alguns casos tratados com o método
-          </h2>
-          <p className="text-center text-classic-navy/40 text-sm mb-12">
-            Casos clínicos do Dr. João Paulo Silva-Neto · CRO/RN 3271
-          </p>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { antes: caso1Antes, depois: caso1Depois },
-              { antes: caso2Antes, depois: caso2Depois },
-              { antes: caso3Antes, depois: caso3Depois },
-            ].map((c, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-classic-navy/5 shadow-sm">
-                <div className="grid grid-cols-2 divide-x divide-classic-navy/10">
-                  <div className="p-3">
-                    <p className="text-xs font-bold uppercase tracking-widest text-classic-navy/30 mb-3 text-center">Antes</p>
-                    <img src={c.antes} alt="antes" className="w-full rounded-lg object-contain" />
-                  </div>
-                  <div className="p-3">
-                    <p className="text-xs font-bold uppercase tracking-widest text-classic-brown mb-3 text-center">Depois</p>
-                    <img src={c.depois} alt="depois" className="w-full rounded-lg object-contain" />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── AUTORIDADE ── */}
+      {/* ── 7. AUTORIDADE — dark ── */}
       <section className="bg-classic-navy py-20 px-6 text-white">
         <div className="mx-auto max-w-4xl grid md:grid-cols-2 gap-12 items-center">
-          <img
-            src={doctorPortrait}
-            alt="Dr. João Paulo Silva-Neto"
-            className="rounded-3xl w-full object-cover shadow-2xl opacity-90"
-          />
+          <img src={doctorPortrait} alt="Dr. João Paulo Silva-Neto" loading="lazy" decoding="async"
+            className="rounded-3xl w-full object-cover shadow-2xl opacity-90" />
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel mb-3">
-              Seu professor
-            </p>
+            <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel mb-3">Seu professor</p>
             <h2 className="text-3xl font-bold mb-6">Dr. João Paulo Silva-Neto</h2>
             <div className="space-y-4 text-white/60 text-sm leading-relaxed">
               <p>Clínico, professor e pesquisador em Reabilitação Oral. Doutor em Prótese Dental pela <span className="text-white font-semibold">UNICAMP-SP</span> e Mestre em Reabilitação Oral pela <span className="text-white font-semibold">UFU-MG</span>.</p>
               <p>A base do método não é a teoria acadêmica — são <span className="text-white font-semibold">15 anos de prática clínica real</span>, com centenas de casos de reabilitação tratados.</p>
               <p>Desenvolveu a Reabilitação Objetiva para eliminar o improviso e dar ao dentista um sistema que funciona — do diagnóstico à proservação.</p>
             </div>
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-6 flex flex-wrap gap-2 mb-8">
               {["UNICAMP-SP", "UFU-MG", "CRO/RN 3271", "15 anos de clínica"].map((tag) => (
                 <span key={tag} className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/60">{tag}</span>
               ))}
             </div>
+            <a href={HOTMART_URL} target="_blank" rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-classic-pastel px-8 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90">
+              Quero minha vaga <ArrowRight className="size-4" />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ── PARA QUEM É ── */}
+      {/* ── 8. PARA QUEM É — light ── */}
       <section className="bg-classic-light py-20 px-6">
         <div className="mx-auto max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-classic-navy mb-12">
-            Este curso é para você?
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-classic-navy mb-12">Este curso é para você?</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="rounded-3xl bg-white border border-classic-navy/5 p-8 shadow-sm">
               <h3 className="font-bold text-classic-navy mb-5 flex items-center gap-2">
@@ -394,8 +382,7 @@ function CursoPage() {
                   "Quer se posicionar como referência em reabilitação na sua cidade",
                 ].map((i) => (
                   <li key={i} className="flex items-start gap-2.5 text-sm text-classic-navy/70">
-                    <CheckCircle2 className="size-4 text-classic-brown shrink-0 mt-0.5" />
-                    {i}
+                    <CheckCircle2 className="size-4 text-classic-brown shrink-0 mt-0.5" />{i}
                   </li>
                 ))}
               </ul>
@@ -412,39 +399,40 @@ function CursoPage() {
                   "Espera resultados sem dedicar tempo ao aprendizado",
                 ].map((i) => (
                   <li key={i} className="flex items-start gap-2.5 text-sm text-classic-navy/50">
-                    <XCircle className="size-4 text-classic-wine shrink-0 mt-0.5" />
-                    {i}
+                    <XCircle className="size-4 text-classic-wine shrink-0 mt-0.5" />{i}
                   </li>
                 ))}
               </ul>
             </div>
           </div>
+          <div className="mt-12 text-center">
+            <a href={HOTMART_URL} target="_blank" rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-classic-navy px-8 py-4 text-sm font-bold text-white shadow-lg transition hover:bg-classic-wine">
+              Quero minha vaga <ArrowRight className="size-4" />
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* ── OFERTA ── */}
-      <section className="bg-classic-light py-20 px-6">
+      {/* ── 9. OFERTA — dark ── */}
+      <section className="bg-classic-navy py-20 px-6 text-white">
         <div className="mx-auto max-w-md text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-classic-brown mb-3">Investimento</p>
-          <h2 className="text-3xl font-bold text-classic-navy mb-8">Reabilitação Objetiva Online</h2>
-          <div className="bg-white rounded-3xl border border-classic-navy/10 shadow-xl p-8">
-            <p className="text-sm text-classic-navy/30 line-through mb-1">De R$ 2.997,90</p>
-            <p className="text-classic-navy/50 text-sm">por apenas</p>
-            <p className="text-5xl font-black text-classic-navy mt-1">12x de R$ 103</p>
-            <p className="text-classic-navy/40 text-sm mt-2">ou</p>
-            <p className="text-2xl font-bold text-classic-navy mt-1 mb-6">R$ 997,90 à vista</p>
-            <a
-              href={HOTMART_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="block w-full rounded-full bg-classic-navy py-4 text-center text-sm font-bold uppercase tracking-wider text-white shadow-lg transition hover:bg-classic-wine"
-            >
+          <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel mb-3">Investimento</p>
+          <h2 className="text-3xl font-bold mb-8">Reabilitação Objetiva Online</h2>
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
+            <p className="text-sm text-white/30 line-through mb-1">De R$ 2.997,90</p>
+            <p className="text-white/50 text-sm">por apenas</p>
+            <p className="text-5xl font-black text-white mt-1">12x de R$ 103</p>
+            <p className="text-white/40 text-sm mt-2">ou</p>
+            <p className="text-2xl font-bold text-white mt-1 mb-6">R$ 997,90 à vista</p>
+            <a href={HOTMART_URL} target="_blank" rel="noreferrer"
+              className="block w-full rounded-full bg-classic-pastel py-4 text-center text-sm font-bold uppercase tracking-wider text-classic-navy shadow-lg transition hover:opacity-90">
               Quero minha vaga <ArrowRight className="inline size-4 ml-1" />
             </a>
-            <ul className="mt-6 space-y-2 text-xs text-classic-navy/40 text-left">
-              {["Acesso vitalício", "30h de conteúdo + bônus", "Comunidade com plantão de dúvidas", "Plataforma Hotmart"].map((i) => (
+            <ul className="mt-6 space-y-2 text-xs text-white/40 text-left">
+              {["30h de conteúdo", "Comunidade com plantão de dúvidas", "Plataforma Hotmart"].map((i) => (
                 <li key={i} className="flex items-center gap-2">
-                  <CheckCircle2 className="size-3.5 text-classic-brown shrink-0" />{i}
+                  <CheckCircle2 className="size-3.5 text-classic-pastel shrink-0" />{i}
                 </li>
               ))}
             </ul>
@@ -452,22 +440,18 @@ function CursoPage() {
         </div>
       </section>
 
-      {/* ── FAQ ── */}
+      {/* ── 10. FAQ — light ── */}
       <FaqSection />
 
-      {/* ── CTA FINAL ── */}
+      {/* ── 11. CTA FINAL — dark ── */}
       <section className="bg-classic-navy py-20 px-6 text-white text-center">
         <div className="mx-auto max-w-2xl">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Comece a tratar com previsibilidade</h2>
           <p className="text-white/50 mb-8 leading-relaxed">
             30 horas de método, 8 módulos e casos reais para você nunca mais improvisar em reabilitação oral.
           </p>
-          <a
-            href={HOTMART_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-classic-pastel px-10 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90"
-          >
+          <a href={HOTMART_URL} target="_blank" rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-classic-pastel px-10 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90">
             Quero minha vaga <ArrowRight className="size-4" />
           </a>
         </div>
