@@ -11,8 +11,8 @@ import {
   Award,
 } from "lucide-react";
 import doctorPortrait from "@/assets/doctor-portrait.jpg";
-import heroCima from "@/assets/hero/hero-cima.jpg";
-import heroBaixo from "@/assets/hero/hero-baixo.jpg";
+import heroCima from "@/assets/hero/hero-cima.png";
+import heroBaixo from "@/assets/hero/hero-baixo.png";
 import cursomockup from "@/assets/mockup/curso-mockup.png";
 import caso1Antes from "@/assets/casos/caso1-antes.jpg";
 import caso1Depois from "@/assets/casos/caso1-depois.jpg";
@@ -128,11 +128,11 @@ function CursoPage() {
       {/* ── HERO ── */}
       <div>
         {/* Foto de cima */}
-        <div className="h-64 md:h-80 overflow-hidden">
+        <div className="bg-classic-navy">
           <img
             src={heroCima}
             alt=""
-            className="w-full h-full object-cover object-center"
+            className="w-full object-contain"
           />
         </div>
 
@@ -174,11 +174,11 @@ function CursoPage() {
         </section>
 
         {/* Foto de baixo */}
-        <div className="h-64 md:h-80 overflow-hidden">
+        <div className="bg-classic-navy">
           <img
             src={heroBaixo}
             alt=""
-            className="w-full h-full object-cover object-center"
+            className="w-full object-contain"
           />
         </div>
       </div>
