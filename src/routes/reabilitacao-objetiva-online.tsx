@@ -128,28 +128,28 @@ function CursoPage() {
       {/* ── HERO ── */}
       <div>
         {/* Foto de cima */}
-        <div className="bg-classic-navy">
+        <div className="bg-classic-navy h-48 md:h-64 overflow-hidden">
           <img
             src={heroCima}
             alt=""
-            className="w-full object-contain"
+            className="w-full h-full object-cover object-bottom"
           />
         </div>
 
         {/* Texto */}
-        <section className="bg-classic-navy text-white py-16 px-6">
+        <section className="bg-classic-navy text-white pt-6 pb-8 px-6">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel mb-5">
+            <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel mb-3">
               Curso Online · Dr. João Paulo Silva-Neto
             </span>
             <h1 className="text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight">
               Chega de improvisar em{" "}
               <span className="text-classic-pastel">reabilitação oral.</span>
             </h1>
-            <p className="mt-6 text-lg text-white/60 leading-relaxed max-w-xl mx-auto">
+            <p className="mt-4 text-lg text-white/60 leading-relaxed max-w-xl mx-auto">
               Aprenda a conduzir qualquer caso com previsibilidade — do diagnóstico à proservação.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
               <a
                 href={HOTMART_URL}
                 target="_blank"
@@ -165,20 +165,19 @@ function CursoPage() {
                 Ver o conteúdo
               </a>
             </div>
-            <div className="mt-10 flex flex-wrap gap-6 text-sm text-white/40 justify-center">
+            <div className="mt-6 flex flex-wrap gap-6 text-sm text-white/40 justify-center">
               <span className="flex items-center gap-1.5"><Clock className="size-4" /> 30h de conteúdo</span>
               <span className="flex items-center gap-1.5"><BookOpen className="size-4" /> 8 módulos</span>
-              <span className="flex items-center gap-1.5"><Award className="size-4" /> Acesso vitalício</span>
             </div>
           </div>
         </section>
 
         {/* Foto de baixo */}
-        <div className="bg-classic-navy">
+        <div className="bg-classic-navy h-48 md:h-64 overflow-hidden">
           <img
             src={heroBaixo}
             alt=""
-            className="w-full object-contain"
+            className="w-full h-full object-cover object-top"
           />
         </div>
       </div>
