@@ -125,47 +125,37 @@ function CursoPage() {
 
       {/* ── HERO ── */}
       <section className="bg-classic-navy text-white pt-16 pb-24 px-6">
-        <div className="mx-auto max-w-5xl grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel mb-5">
-              CONHEÇA O CURSO:
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold leading-[1.15] tracking-tight">
-              Chega de improvisar em{" "}
-              <span className="text-classic-pastel">reabilitação oral.</span>
-            </h1>
-            <p className="mt-5 text-lg text-white/70 leading-relaxed">
-              Aprenda a conduzir qualquer caso com previsibilidade — do diagnóstico à proservação.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <a
-                href={HOTMART_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-classic-pastel px-8 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90"
-              >
-                Quero minha vaga <ArrowRight className="size-4" />
-              </a>
-              <a
-                href="#modulos"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-medium text-white/70 transition hover:bg-white/10"
-              >
-                Ver o conteúdo
-              </a>
-            </div>
-            <div className="mt-8 flex flex-wrap gap-5 text-sm text-white/40">
-              <span className="flex items-center gap-1.5"><Clock className="size-4" /> 30h de conteúdo</span>
-              <span className="flex items-center gap-1.5"><BookOpen className="size-4" /> 8 módulos</span>
-              <span className="flex items-center gap-1.5"><Award className="size-4" /> </span>
-            </div>
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel mb-5">
+            Curso Online · Dr. João Paulo Silva-Neto
+          </span>
+          <h1 className="text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight">
+            Chega de improvisar em{" "}
+            <span className="text-classic-pastel">reabilitação oral.</span>
+          </h1>
+          <p className="mt-6 text-lg text-white/60 leading-relaxed max-w-xl mx-auto">
+            Aprenda a conduzir qualquer caso com previsibilidade — do diagnóstico à proservação.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href={HOTMART_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-classic-pastel px-8 py-4 text-sm font-bold text-classic-navy shadow-xl transition hover:opacity-90"
+            >
+              Quero minha vaga <ArrowRight className="size-4" />
+            </a>
+            <a
+              href="#modulos"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-medium text-white/70 transition hover:bg-white/10"
+            >
+              Ver o conteúdo
+            </a>
           </div>
-          <div className="relative">
-            <div className="absolute -inset-6 rounded-3xl bg-classic-pastel/10 blur-3xl" />
-            <img
-              src={doctorPortrait}
-              alt="Dr. João Paulo Silva-Neto"
-              className="relative rounded-3xl w-full object-cover shadow-2xl"
-            />
+          <div className="mt-10 flex flex-wrap gap-6 text-sm text-white/40 justify-center">
+            <span className="flex items-center gap-1.5"><Clock className="size-4" /> 30h de conteúdo</span>
+            <span className="flex items-center gap-1.5"><BookOpen className="size-4" /> 8 módulos</span>
+            <span className="flex items-center gap-1.5"><Award className="size-4" /> Acesso vitalício</span>
           </div>
         </div>
       </section>
@@ -314,22 +304,19 @@ function CursoPage() {
           </p>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { antes: caso1Antes, depois: caso1Depois, n: 1 },
-              { antes: caso2Antes, depois: caso2Depois, n: 2 },
-              { antes: caso3Antes, depois: caso3Depois, n: 3 },
-            ].map((c) => (
-              <div key={c.n} className="bg-white rounded-2xl overflow-hidden border border-classic-navy/5 shadow-sm">
-                <div className="bg-classic-navy/5 px-4 py-2">
-                  <span className="text-xs font-bold uppercase tracking-widest text-classic-navy/40">Caso {c.n}</span>
-                </div>
+              { antes: caso1Antes, depois: caso1Depois },
+              { antes: caso2Antes, depois: caso2Depois },
+              { antes: caso3Antes, depois: caso3Depois },
+            ].map((c, i) => (
+              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-classic-navy/5 shadow-sm">
                 <div className="grid grid-cols-2 divide-x divide-classic-navy/10">
                   <div className="p-3">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-classic-navy/30 mb-2 text-center">Antes</p>
-                    <img src={c.antes} alt={`Caso ${c.n} antes`} className="w-full rounded-lg object-contain" />
+                    <p className="text-xs font-bold uppercase tracking-widest text-classic-navy/30 mb-3 text-center">Antes</p>
+                    <img src={c.antes} alt="antes" className="w-full rounded-lg object-contain" />
                   </div>
                   <div className="p-3">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-classic-brown mb-2 text-center">Depois</p>
-                    <img src={c.depois} alt={`Caso ${c.n} depois`} className="w-full rounded-lg object-contain" />
+                    <p className="text-xs font-bold uppercase tracking-widest text-classic-brown mb-3 text-center">Depois</p>
+                    <img src={c.depois} alt="depois" className="w-full rounded-lg object-contain" />
                   </div>
                 </div>
               </div>
