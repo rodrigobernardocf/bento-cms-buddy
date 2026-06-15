@@ -201,26 +201,104 @@ function CursoPage() {
               <span className="flex items-center gap-1.5"><Star className="size-4" /> Acesso vitalício</span>
             </div>
           </div>
-          <div className="relative">
-            <div className="absolute -inset-4 rounded-3xl bg-classic-pastel/10 blur-2xl" />
-            <img
-              src={doctorPortrait}
-              alt="Dr. João Paulo Silva-Neto"
-              className="relative rounded-3xl w-full object-cover shadow-2xl"
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <p className="text-xs font-semibold text-white/40 mb-2 text-center">Antes</p>
+              <img
+                src={caso1Antes}
+                alt="Caso clínico — antes"
+                className="w-full rounded-2xl object-contain shadow-xl"
+              />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-classic-pastel mb-2 text-center">Depois</p>
+              <img
+                src={caso1Depois}
+                alt="Caso clínico — depois"
+                className="w-full rounded-2xl object-contain shadow-xl"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CASOS CLÍNICOS ────────────────────────────────────────── */}
+      <section className="bg-classic-navy py-20 px-6 text-white">
+        <div className="mx-auto max-w-5xl">
+          <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel text-center mb-3">
+            Resultados reais
+          </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Casos tratados com o método
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <CaseRow before={caso1Antes} after={caso1Depois} index={1} />
+            <CaseRow before={caso2Antes} after={caso2Depois} index={2} />
+            <CaseRow before={caso3Antes} after={caso3Depois} index={3} />
+          </div>
+          <p className="text-center text-white/30 text-xs mt-6">
+            Casos clínicos do Dr. João Paulo Silva-Neto · CRO/RN 3271
+          </p>
+        </div>
+      </section>
+
+      {/* ── DEPOIMENTOS ───────────────────────────────────────────── */}
+      <section className="bg-classic-light py-20 px-6">
+        <div className="mx-auto max-w-4xl">
+          <p className="text-xs font-bold uppercase tracking-widest text-classic-brown text-center mb-3">
+            Quem já aplicou o método
+          </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-classic-navy mb-12">
+            O que os alunos dizem
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                name: "Dra. Amanda Bellão",
+                text: "O Curso é excelente! Contempla bem as necessidades de quem está iniciando na profissão, como também de quem já tem anos nela.",
+              },
+              {
+                name: "Dra. Ana Clara Soares",
+                text: "Depois dele mudei minha dinâmica de planejamento e a forma como conduzo meus casos. A clareza do método faz toda diferença.",
+              },
+              {
+                name: "Dra. Lariane Raulino",
+                text: "Curso transformador. Aumentou minha segurança para apresentar e fechar grandes tratamentos com previsibilidade.",
+              },
+            ].map((t) => (
+              <div
+                key={t.name}
+                className="bg-white rounded-2xl p-6 border border-classic-navy/5 shadow-sm"
+              >
+                <div className="flex gap-0.5 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="size-4 fill-classic-brown text-classic-brown" />
+                  ))}
+                </div>
+                <p className="text-sm text-classic-navy/70 leading-relaxed mb-4 italic">
+                  "{t.text}"
+                </p>
+                <div className="flex items-center gap-3 pt-3 border-t border-classic-navy/5">
+                  <div className="size-9 rounded-full bg-classic-pastel/30 flex items-center justify-center text-classic-navy font-bold text-sm">
+                    {t.name.split(" ")[1][0]}
+                  </div>
+                  <span className="text-sm font-semibold text-classic-navy">{t.name}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ── O PROBLEMA ────────────────────────────────────────────── */}
-      <section className="bg-classic-light py-20 px-6">
+      <section className="bg-classic-navy py-20 px-6 text-white">
         <div className="mx-auto max-w-4xl">
-          <p className="text-xs font-bold uppercase tracking-widest text-classic-brown text-center mb-3">
+          <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel text-center mb-3">
             Você se reconhece aqui?
           </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-classic-navy leading-tight mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-center leading-tight mb-12">
             A maioria dos dentistas trata reabilitação{" "}
-            <span className="text-classic-wine">no improviso</span>
+            <span className="text-classic-pastel/60">no improviso</span>
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
             {[
@@ -233,10 +311,10 @@ function CursoPage() {
             ].map((item) => (
               <div
                 key={item}
-                className="flex items-start gap-3 bg-white rounded-2xl p-4 shadow-sm border border-classic-navy/5"
+                className="flex items-start gap-3 bg-white/5 border border-white/10 rounded-2xl p-4"
               >
-                <XCircle className="size-5 text-classic-wine shrink-0 mt-0.5" />
-                <p className="text-sm text-classic-navy/80 leading-relaxed">{item}</p>
+                <XCircle className="size-5 text-classic-pastel/60 shrink-0 mt-0.5" />
+                <p className="text-sm text-white/70 leading-relaxed">{item}</p>
               </div>
             ))}
           </div>
@@ -332,29 +410,6 @@ function CursoPage() {
         </div>
       </section>
 
-      {/* ── CASOS CLÍNICOS ────────────────────────────────────────── */}
-      <section className="bg-classic-navy py-20 px-6 text-white">
-        <div className="mx-auto max-w-5xl">
-          <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel text-center mb-3">
-            Resultados reais
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-            Casos tratados com o método
-          </h2>
-          <p className="text-center text-white/50 text-sm mb-12">
-            Arraste a linha para comparar antes e depois
-          </p>
-          <div className="grid md:grid-cols-3 gap-6">
-            <CaseRow before={caso1Antes} after={caso1Depois} index={1} />
-            <CaseRow before={caso2Antes} after={caso2Depois} index={2} />
-            <CaseRow before={caso3Antes} after={caso3Depois} index={3} />
-          </div>
-          <p className="text-center text-white/30 text-xs mt-6">
-            Casos clínicos do Dr. João Paulo Silva-Neto · CRO/RN 3271
-          </p>
-        </div>
-      </section>
-
       {/* ── MÓDULOS ───────────────────────────────────────────────── */}
       <section id="modulos" className="bg-classic-light py-20 px-6">
         <div className="mx-auto max-w-5xl">
@@ -437,59 +492,6 @@ function CursoPage() {
                 )
               )}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── DEPOIMENTOS ───────────────────────────────────────────── */}
-      <section className="bg-classic-light py-20 px-6">
-        <div className="mx-auto max-w-4xl">
-          <p className="text-xs font-bold uppercase tracking-widest text-classic-brown text-center mb-3">
-            Quem já aplicou o método
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-classic-navy mb-12">
-            O que os alunos dizem
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                name: "Dra. Amanda Bellão",
-                text: "O Curso é excelente! Contempla bem as necessidades de quem está iniciando na profissão, como também de quem já tem anos nela.",
-              },
-              {
-                name: "Dra. Ana Clara Soares",
-                text: "Depois dele mudei minha dinâmica de planejamento e a forma como conduzo meus casos. A clareza do método faz toda diferença.",
-              },
-              {
-                name: "Dra. Lariane Raulino",
-                text: "Curso transformador. Aumentou minha segurança para apresentar e fechar grandes tratamentos com previsibilidade.",
-              },
-            ].map((t) => (
-              <div
-                key={t.name}
-                className="bg-white rounded-2xl p-6 border border-classic-navy/5 shadow-sm"
-              >
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="size-4 fill-classic-brown text-classic-brown"
-                    />
-                  ))}
-                </div>
-                <p className="text-sm text-classic-navy/70 leading-relaxed mb-4 italic">
-                  "{t.text}"
-                </p>
-                <div className="flex items-center gap-3 pt-3 border-t border-classic-navy/5">
-                  <div className="size-9 rounded-full bg-classic-pastel/30 flex items-center justify-center text-classic-navy font-bold text-sm">
-                    {t.name.split(" ")[1][0]}
-                  </div>
-                  <span className="text-sm font-semibold text-classic-navy">
-                    {t.name}
-                  </span>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
