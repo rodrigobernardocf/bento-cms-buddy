@@ -294,7 +294,7 @@ function CursoPage() {
             <img
               src={cursomockup}
               alt="Curso Reabilitação Objetiva — plataforma"
-              className="w-full max-w-xs drop-shadow-2xl"
+              className="w-full max-w-sm drop-shadow-2xl"
             />
           </div>
         </div>
