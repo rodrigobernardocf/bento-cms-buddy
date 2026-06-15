@@ -42,29 +42,37 @@ function BeforeAfterSlider({
 
   return (
     <div
-      className="relative overflow-hidden rounded-2xl select-none"
-      style={{ aspectRatio: "4/3" }}
+      className="relative overflow-hidden rounded-2xl select-none bg-black"
+      style={{ aspectRatio: "3/4" }}
     >
+      {/* Depois — imagem completa à direita */}
       <img
         src={after}
         alt="Depois"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-contain"
       />
-      <img
-        src={before}
-        alt="Antes"
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
-      />
+      {/* Antes — clipado da esquerda até a posição do slider */}
       <div
-        className="absolute top-0 bottom-0 w-0.5 bg-white/90 shadow-[0_0_8px_rgba(0,0,0,0.4)] pointer-events-none"
+        className="absolute inset-0 overflow-hidden"
+        style={{ width: `${position}%` }}
+      >
+        <img
+          src={before}
+          alt="Antes"
+          className="absolute inset-0 h-full object-contain"
+          style={{ width: `${10000 / position}%`, maxWidth: "none" }}
+        />
+      </div>
+      {/* Linha divisória */}
+      <div
+        className="absolute top-0 bottom-0 w-0.5 bg-white/90 shadow-[0_0_8px_rgba(0,0,0,0.5)] pointer-events-none"
         style={{ left: `${position}%` }}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-9 rounded-full bg-white shadow-lg flex items-center justify-center gap-0.5">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-9 rounded-full bg-white shadow-lg flex items-center justify-center">
           <span className="text-[10px] font-black text-classic-navy">◀▶</span>
         </div>
       </div>
-      <span className="absolute top-3 left-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full font-semibold pointer-events-none">
+      <span className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2.5 py-1 rounded-full font-semibold pointer-events-none">
         Antes
       </span>
       <span className="absolute top-3 right-3 bg-white/90 text-classic-navy text-xs px-2.5 py-1 rounded-full font-semibold pointer-events-none">
