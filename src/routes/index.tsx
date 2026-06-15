@@ -76,7 +76,7 @@ function BentoLanding() {
             href="/reabilitacao-objetiva-online"
             target="_blank"
             rel="noreferrer"
-            className="col-span-2 flex items-center justify-between gap-4 rounded-3xl bg-[oklch(0.18_0.02_250)] p-6 transition hover:scale-[1.01] hover:shadow-xl"
+            className="col-span-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-3xl bg-[oklch(0.18_0.02_250)] p-6 transition hover:scale-[1.01] hover:shadow-xl"
           >
             <div className="flex items-center gap-4">
               <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-white">
@@ -88,11 +88,9 @@ function BentoLanding() {
                 <p className="text-sm text-white/60">Aprenda o método completo no seu ritmo</p>
               </div>
             </div>
-            <div className="flex shrink-0 flex-col items-end gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-classic-pastel px-5 py-2.5 text-sm font-bold text-classic-navy transition hover:opacity-90">
-                Inscreva-se <ArrowRight className="size-4" />
-              </span>
-            </div>
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-classic-pastel px-5 py-2.5 text-sm font-bold text-classic-navy transition hover:opacity-90">
+              Inscreva-se <ArrowRight className="size-4" />
+            </span>
           </a>
 
           {/* YouTube */}
