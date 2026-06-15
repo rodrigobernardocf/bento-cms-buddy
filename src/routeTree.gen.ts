@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TratamentosRouteImport } from './routes/tratamentos'
+import { Route as ReabilitacaoObjetivaOnlineRouteImport } from './routes/reabilitacao-objetiva-online'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as EspecialistaRouteImport } from './routes/especialista'
@@ -29,6 +30,12 @@ const TratamentosRoute = TratamentosRouteImport.update({
   path: '/tratamentos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReabilitacaoObjetivaOnlineRoute =
+  ReabilitacaoObjetivaOnlineRouteImport.update({
+    id: '/reabilitacao-objetiva-online',
+    path: '/reabilitacao-objetiva-online',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -103,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/especialista': typeof EspecialistaRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/reabilitacao-objetiva-online': typeof ReabilitacaoObjetivaOnlineRoute
   '/tratamentos': typeof TratamentosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/pages': typeof AdminPagesRoute
@@ -119,6 +127,7 @@ export interface FileRoutesByTo {
   '/especialista': typeof EspecialistaRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/reabilitacao-objetiva-online': typeof ReabilitacaoObjetivaOnlineRoute
   '/tratamentos': typeof TratamentosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/pages': typeof AdminPagesRoute
@@ -136,6 +145,7 @@ export interface FileRoutesById {
   '/especialista': typeof EspecialistaRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/reabilitacao-objetiva-online': typeof ReabilitacaoObjetivaOnlineRoute
   '/tratamentos': typeof TratamentosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/pages': typeof AdminPagesRoute
@@ -154,6 +164,7 @@ export interface FileRouteTypes {
     | '/especialista'
     | '/home'
     | '/login'
+    | '/reabilitacao-objetiva-online'
     | '/tratamentos'
     | '/admin/dashboard'
     | '/admin/pages'
@@ -170,6 +181,7 @@ export interface FileRouteTypes {
     | '/especialista'
     | '/home'
     | '/login'
+    | '/reabilitacao-objetiva-online'
     | '/tratamentos'
     | '/admin/dashboard'
     | '/admin/pages'
@@ -186,6 +198,7 @@ export interface FileRouteTypes {
     | '/especialista'
     | '/home'
     | '/login'
+    | '/reabilitacao-objetiva-online'
     | '/tratamentos'
     | '/admin/dashboard'
     | '/admin/pages'
@@ -203,6 +216,7 @@ export interface RootRouteChildren {
   EspecialistaRoute: typeof EspecialistaRoute
   HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
+  ReabilitacaoObjetivaOnlineRoute: typeof ReabilitacaoObjetivaOnlineRoute
   TratamentosRoute: typeof TratamentosRoute
 }
 
@@ -213,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/tratamentos'
       fullPath: '/tratamentos'
       preLoaderRoute: typeof TratamentosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reabilitacao-objetiva-online': {
+      id: '/reabilitacao-objetiva-online'
+      path: '/reabilitacao-objetiva-online'
+      fullPath: '/reabilitacao-objetiva-online'
+      preLoaderRoute: typeof ReabilitacaoObjetivaOnlineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -347,6 +368,7 @@ const rootRouteChildren: RootRouteChildren = {
   EspecialistaRoute: EspecialistaRoute,
   HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
+  ReabilitacaoObjetivaOnlineRoute: ReabilitacaoObjetivaOnlineRoute,
   TratamentosRoute: TratamentosRoute,
 }
 export const routeTree = rootRouteImport
