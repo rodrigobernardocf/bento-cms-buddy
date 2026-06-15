@@ -159,9 +159,9 @@ function CursoPage() {
             </div>
           </div>
         </section>
-        <div className="bg-classic-navy h-48 md:h-72 overflow-hidden">
+        <div className="bg-classic-navy h-48 overflow-hidden md:hidden">
           <img src={heroBaixo} alt="" fetchPriority="high" decoding="async"
-            className="w-full h-full object-cover object-top md:object-contain md:object-top" />
+            className="w-full h-full object-cover object-top" />
         </div>
       </div>
 
