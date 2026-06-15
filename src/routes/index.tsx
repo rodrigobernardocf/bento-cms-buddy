@@ -73,7 +73,7 @@ function BentoLanding() {
 
           {/* RO Online — curso */}
           <a
-            href="#TODO_LINK_CURSO"
+            href="https://pay.hotmart.com/U102790539J"
             target="_blank"
             rel="noreferrer"
             className="col-span-2 flex items-center justify-between gap-4 rounded-3xl bg-[oklch(0.18_0.02_250)] p-6 transition hover:scale-[1.01] hover:shadow-xl"
@@ -89,9 +89,8 @@ function BentoLanding() {
               </div>
             </div>
             <div className="flex shrink-0 flex-col items-end gap-2">
-              <span className="text-2xl font-bold text-white">R$997</span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white transition group-hover:gap-2">
-                Acessar <ArrowRight className="size-3" />
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-classic-pastel px-5 py-2.5 text-sm font-bold text-classic-navy transition hover:opacity-90">
+                Inscreva-se <ArrowRight className="size-4" />
               </span>
             </div>
           </a>
