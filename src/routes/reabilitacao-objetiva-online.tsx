@@ -5,8 +5,6 @@ import {
   CheckCircle2,
   XCircle,
   ChevronDown,
-  Users,
-  Youtube,
   Star,
   Clock,
   BookOpen,
@@ -87,16 +85,37 @@ const faq = [
   },
 ];
 
-function FaqItem({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
+function FaqItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean; onToggle: () => void }) {
   return (
-    <div onClick={() => setOpen(!open)} className="cursor-pointer py-5 border-b border-classic-navy/10 last:border-0">
+    <div onClick={onToggle} className="cursor-pointer py-5 border-b border-classic-navy/10 last:border-0">
       <div className="flex items-center justify-between gap-4">
         <span className="font-semibold text-classic-navy text-sm md:text-base">{q}</span>
         <ChevronDown className={`size-5 text-classic-brown shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </div>
       {open && <p className="mt-3 text-classic-navy/60 text-sm leading-relaxed pr-6">{a}</p>}
     </div>
+  );
+}
+
+function FaqSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  return (
+    <section className="bg-classic-light pb-20 px-6">
+      <div className="mx-auto max-w-2xl">
+        <h2 className="text-2xl font-bold text-classic-navy text-center mb-10">Dúvidas frequentes</h2>
+        <div className="bg-white rounded-3xl border border-classic-navy/5 shadow-sm px-6">
+          {faq.map((item, i) => (
+            <FaqItem
+              key={item.q}
+              q={item.q}
+              a={item.a}
+              open={openIndex === i}
+              onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -228,7 +247,7 @@ function CursoPage() {
                   <img
                     src={mod.img}
                     alt={mod.title}
-                    className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full object-contain group-hover:scale-105 transition-transform duration-300"
                   />
                   <span className="absolute top-2 left-2 bg-classic-navy/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                     {mod.num}
@@ -394,26 +413,6 @@ function CursoPage() {
         </div>
       </section>
 
-      {/* ── BÔNUS ── */}
-      <section className="bg-classic-navy py-16 px-6 text-white">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel mb-3">Incluído na inscrição</p>
-          <h2 className="text-2xl md:text-3xl font-bold mb-10">+ Bônus exclusivos</h2>
-          <div className="grid md:grid-cols-2 gap-5">
-            <div className="rounded-2xl bg-white/5 border border-white/10 p-6 text-left">
-              <Users className="size-7 text-classic-pastel mb-3" />
-              <h3 className="font-bold mb-2">Comunidade RO 5.0</h3>
-              <p className="text-sm text-white/50 leading-relaxed">Acesso à comunidade com profissionais que já aplicam o método, com plantão de dúvidas ativo.</p>
-            </div>
-            <div className="rounded-2xl bg-white/5 border border-white/10 p-6 text-left">
-              <Youtube className="size-7 text-classic-pastel mb-3" />
-              <h3 className="font-bold mb-2">Canal YouTube Exclusivo</h3>
-              <p className="text-sm text-white/50 leading-relaxed">Mais de 15 aulas gravadas com conteúdo complementar ao curso.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── OFERTA ── */}
       <section className="bg-classic-light py-20 px-6">
         <div className="mx-auto max-w-md text-center">
@@ -445,16 +444,7 @@ function CursoPage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="bg-classic-light pb-20 px-6">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="text-2xl font-bold text-classic-navy text-center mb-10">Dúvidas frequentes</h2>
-          <div className="bg-white rounded-3xl border border-classic-navy/5 shadow-sm px-6">
-            {faq.map((item) => (
-              <FaqItem key={item.q} q={item.q} a={item.a} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <FaqSection />
 
       {/* ── CTA FINAL ── */}
       <section className="bg-classic-navy py-20 px-6 text-white text-center">
