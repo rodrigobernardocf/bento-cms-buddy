@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SiteNavBar } from "@/components/SiteNavBar";
 import { useState } from "react";
 import {
   ArrowRight,
@@ -177,10 +176,8 @@ const faq = [
 function CursoPage() {
   return (
     <div className="min-h-screen bg-classic-light font-sans text-classic-navy selection:bg-classic-pastel/50">
-      <SiteNavBar />
-
       {/* ── HERO ──────────────────────────────────────────────────── */}
-      <section className="bg-classic-navy text-white pt-28 pb-20 px-6 overflow-hidden">
+      <section className="bg-classic-navy text-white pt-16 pb-20 px-6 overflow-hidden">
         <div className="mx-auto max-w-5xl grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-classic-pastel mb-4">
