@@ -85,9 +85,9 @@ function BeforeAfterSlider({
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <button
+    <div
       onClick={() => setOpen(!open)}
-      className="w-full text-left border-b border-classic-navy/10 py-5 group"
+      className="w-full text-left border-b border-classic-navy/10 py-5 cursor-pointer group"
     >
       <div className="flex items-center justify-between gap-4">
         <span className="font-semibold text-classic-navy text-base group-hover:text-classic-brown transition-colors">
@@ -102,7 +102,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
           {answer}
         </p>
       )}
-    </button>
+    </div>
   );
 }
 
