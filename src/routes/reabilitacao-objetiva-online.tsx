@@ -31,61 +31,38 @@ export const Route = createFileRoute("/reabilitacao-objetiva-online")({
 
 const HOTMART_URL = "https://pay.hotmart.com/U102790539J";
 
-function BeforeAfterSlider({
+function CaseRow({
   before,
   after,
+  index,
 }: {
   before: string;
   after: string;
+  index: number;
 }) {
-  const [position, setPosition] = useState(50);
-
   return (
-    <div
-      className="relative overflow-hidden rounded-2xl select-none bg-black"
-      style={{ aspectRatio: "3/4" }}
-    >
-      {/* Depois — imagem completa à direita */}
-      <img
-        src={after}
-        alt="Depois"
-        className="absolute inset-0 w-full h-full object-contain"
-      />
-      {/* Antes — clipado da esquerda até a posição do slider */}
-      <div
-        className="absolute inset-0 overflow-hidden"
-        style={{ width: `${position}%` }}
-      >
-        <img
-          src={before}
-          alt="Antes"
-          className="absolute inset-0 h-full object-contain"
-          style={{ width: `${10000 / position}%`, maxWidth: "none" }}
-        />
-      </div>
-      {/* Linha divisória */}
-      <div
-        className="absolute top-0 bottom-0 w-0.5 bg-white/90 shadow-[0_0_8px_rgba(0,0,0,0.5)] pointer-events-none"
-        style={{ left: `${position}%` }}
-      >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-9 rounded-full bg-white shadow-lg flex items-center justify-center">
-          <span className="text-[10px] font-black text-classic-navy">◀▶</span>
+    <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
+      <p className="text-xs font-bold uppercase tracking-widest text-classic-pastel/60 mb-4">
+        Caso {index}
+      </p>
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <p className="text-xs font-semibold text-white/40 mb-2 text-center">Antes</p>
+          <img
+            src={before}
+            alt={`Caso ${index} — antes`}
+            className="w-full rounded-xl object-contain"
+          />
+        </div>
+        <div>
+          <p className="text-xs font-semibold text-classic-pastel mb-2 text-center">Depois</p>
+          <img
+            src={after}
+            alt={`Caso ${index} — depois`}
+            className="w-full rounded-xl object-contain"
+          />
         </div>
       </div>
-      <span className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2.5 py-1 rounded-full font-semibold pointer-events-none">
-        Antes
-      </span>
-      <span className="absolute top-3 right-3 bg-white/90 text-classic-navy text-xs px-2.5 py-1 rounded-full font-semibold pointer-events-none">
-        Depois
-      </span>
-      <input
-        type="range"
-        min={0}
-        max={100}
-        value={position}
-        onChange={(e) => setPosition(Number(e.target.value))}
-        className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize"
-      />
     </div>
   );
 }
@@ -368,9 +345,9 @@ function CursoPage() {
             Arraste a linha para comparar antes e depois
           </p>
           <div className="grid md:grid-cols-3 gap-6">
-            <BeforeAfterSlider before={caso1Antes} after={caso1Depois} />
-            <BeforeAfterSlider before={caso2Antes} after={caso2Depois} />
-            <BeforeAfterSlider before={caso3Antes} after={caso3Depois} />
+            <CaseRow before={caso1Antes} after={caso1Depois} index={1} />
+            <CaseRow before={caso2Antes} after={caso2Depois} index={2} />
+            <CaseRow before={caso3Antes} after={caso3Depois} index={3} />
           </div>
           <p className="text-center text-white/30 text-xs mt-6">
             Casos clínicos do Dr. João Paulo Silva-Neto · CRO/RN 3271
