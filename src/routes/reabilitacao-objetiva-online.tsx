@@ -127,9 +127,9 @@ function CursoPage() {
 
       {/* ── 1. HERO — dark ── */}
       <div>
-        <div className="bg-classic-navy h-48 md:h-64 overflow-hidden">
+        <div className="bg-classic-navy h-48 md:h-72 overflow-hidden">
           <img src={heroCima} alt="" fetchPriority="high" decoding="async"
-            className="w-full h-full object-cover object-bottom" />
+            className="w-full h-full object-cover object-bottom md:object-contain md:object-bottom" />
         </div>
         <section className="bg-classic-navy text-white pt-6 pb-8 px-6">
           <div className="mx-auto max-w-3xl text-center">
@@ -159,9 +159,9 @@ function CursoPage() {
             </div>
           </div>
         </section>
-        <div className="bg-classic-navy h-48 md:h-64 overflow-hidden">
+        <div className="bg-classic-navy h-48 md:h-72 overflow-hidden">
           <img src={heroBaixo} alt="" fetchPriority="high" decoding="async"
-            className="w-full h-full object-cover object-top" />
+            className="w-full h-full object-cover object-top md:object-contain md:object-top" />
         </div>
       </div>
 
