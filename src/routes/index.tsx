@@ -57,7 +57,7 @@ function BentoLanding() {
             href="https://chat.whatsapp.com/HT7tVn2LZku1EZ436IGqhY?mode=gi_t"
             target="_blank"
             rel="noreferrer"
-            className="col-span-2 group relative h-85 overflow-hidden rounded-3xl shadow-md transition hover:shadow-xl"
+            className="col-span-2 group relative aspect-[4/3] overflow-hidden rounded-3xl shadow-md transition hover:shadow-xl"
           >
             <img
               src={reabilitacaoBanner}

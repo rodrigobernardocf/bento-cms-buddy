@@ -89,7 +89,7 @@ const faq = [
 
 function FaqItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean; onToggle: () => void }) {
   return (
-    <div onClick={onToggle} className="cursor-pointer py-5 border-b border-classic-navy/10 last:border-0">
+    <div onClick={onToggle} role="button" tabIndex={0} onKeyDown={(e) => e.key === "Enter" && onToggle()} className="cursor-pointer py-5 border-b border-classic-navy/10 last:border-0">
       <div className="flex items-center justify-between gap-4">
         <span className="font-semibold text-classic-navy text-sm md:text-base">{q}</span>
         <ChevronDown className={`size-5 text-classic-brown shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
@@ -102,7 +102,7 @@ function FaqItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   return (
-    <section className="bg-classic-light pb-20 px-6">
+    <section className="bg-classic-light py-20 px-6">
       <div className="mx-auto max-w-2xl">
         <h2 className="text-2xl font-bold text-classic-navy text-center mb-10">Dúvidas frequentes</h2>
         <div className="bg-white rounded-3xl border border-classic-navy/5 shadow-sm px-6">
