@@ -1,35 +1,42 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { SiteNavBar } from "@/components/SiteNavBar";
 
-export const Route = createFileRoute("/blog")({
-  component: BlogPage,
-});
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
 
 interface Post {
   id: string;
   title: string;
   slug: string;
   excerpt: string | null;
-  featured_image_url: string | null;
   published_at: string | null;
   created_at: string;
 }
 
+export const Route = createFileRoute("/blog")({
+  loader: async (): Promise<{ posts: Post[] }> => {
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/posts?status=eq.published&select=id,title,slug,excerpt,published_at,created_at&order=published_at.desc`,
+        {
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+          },
+        }
+      );
+      if (!res.ok) return { posts: [] };
+      const posts = await res.json();
+      return { posts: posts as Post[] };
+    } catch {
+      return { posts: [] };
+    }
+  },
+  component: BlogPage,
+});
+
 function BlogPage() {
-  const { data: posts, isLoading } = useQuery({
-    queryKey: ["public-posts"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("posts")
-        .select("id, title, slug, excerpt, featured_image_url, published_at, created_at")
-        .eq("status", "published")
-        .order("published_at", { ascending: false });
-      if (error) throw error;
-      return data as Post[];
-    },
-  });
+  const { posts } = Route.useLoaderData();
 
   return (
     <div className="min-h-screen bg-classic-light font-sans text-classic-navy selection:bg-classic-pastel selection:text-white">
@@ -42,13 +49,10 @@ function BlogPage() {
           </p>
 
           <div className="mt-16 space-y-8">
-            {isLoading && (
-              <p className="text-center text-classic-navy/40">Carregando...</p>
-            )}
-            {!isLoading && posts?.length === 0 && (
+            {posts.length === 0 && (
               <p className="text-center text-classic-navy/40">Nenhum post publicado ainda.</p>
             )}
-            {posts?.map((post) => (
+            {posts.map((post) => (
               <Link
                 key={post.id}
                 to="/blog/$slug"
