@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Admin · Dr. JP</title>
+<style>
+  :root{
+    --navy:#1a2744;--brown:#8b6914;--wine:#7a1c2e;--pastel:#4a7ab5;--light:#f5f3ef;
+    --border:#e5e1d8;--text:#1a2744;--muted:#8a8070;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--light);color:var(--text);min-height:100vh}
+  .hidden{display:none!important}
+
+  /* Login */
+  #login-view{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
+  .login-card{background:#fff;border:1px solid var(--border);border-radius:1.5rem;padding:2.5rem;width:100%;max-width:400px;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+  .login-card h1{font-size:1.5rem;font-weight:600;margin-bottom:.25rem}
+  .login-card p{color:var(--muted);font-size:.875rem;margin-bottom:1.75rem}
+  label{display:block;font-size:.8125rem;font-weight:600;margin-bottom:.4rem;color:var(--navy)}
+  input[type=email],input[type=password],input[type=text],textarea,select{
+    width:100%;border:1px solid var(--border);border-radius:.75rem;padding:.6rem .875rem;
+    font-size:.9rem;color:var(--text);background:#fff;outline:none;transition:border-color .2s;
+    font-family:inherit
+  }
+  input:focus,textarea:focus,select:focus{border-color:var(--pastel)}
+  textarea{resize:vertical;line-height:1.7}
+  .field{margin-bottom:1.1rem}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;border:none;border-radius:.875rem;
+    padding:.65rem 1.25rem;font-size:.8125rem;font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;cursor:pointer;transition:opacity .15s}
+  .btn:hover{opacity:.85}
+  .btn-primary{background:var(--navy);color:#fff}
+  .btn-wine{background:var(--wine);color:#fff}
+  .btn-pastel{background:var(--pastel);color:#fff}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+  .btn-sm{padding:.45rem .9rem;font-size:.75rem}
+  .btn-full{width:100%;justify-content:center}
+  .error-msg{color:var(--wine);font-size:.8rem;margin-top:.75rem;text-align:center}
+
+  /* Layout admin */
+  #admin-view{display:flex;min-height:100vh}
+  aside{width:220px;background:var(--navy);color:#fff;padding:1.5rem;flex-shrink:0;display:flex;flex-direction:column;gap:.25rem}
+  aside h2{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.75rem;margin-top:1rem}
+  aside h2:first-of-type{margin-top:0}
+  .nav-link{display:block;padding:.55rem .75rem;border-radius:.75rem;font-size:.875rem;font-weight:500;
+    color:rgba(255,255,255,.7);text-decoration:none;cursor:pointer;border:none;background:transparent;
+    width:100%;text-align:left;transition:background .15s}
+  .nav-link:hover,.nav-link.active{background:rgba(255,255,255,.1);color:#fff}
+  .nav-link.danger{color:#f87171}
+  aside .spacer{flex:1}
+  .content{flex:1;padding:2.5rem;overflow-y:auto}
+  .content-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem}
+  .content-header h1{font-size:1.625rem;font-weight:600}
+
+  /* Posts list */
+  .posts-table{width:100%;border-collapse:collapse;background:#fff;border-radius:1rem;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .posts-table th{background:#f0ede8;padding:.75rem 1rem;text-align:left;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .posts-table td{padding:.875rem 1rem;border-top:1px solid var(--border);font-size:.875rem;vertical-align:middle}
+  .badge{display:inline-block;padding:.2rem .65rem;border-radius:999px;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-pub{background:#d1fae5;color:#065f46}
+  .badge-draft{background:#f0ede8;color:var(--muted)}
+  .actions{display:flex;gap:.5rem}
+
+  /* Post form */
+  .form-card{background:#fff;border:1px solid var(--border);border-radius:1.25rem;padding:2rem;max-width:860px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media(max-width:640px){.form-row{grid-template-columns:1fr}}
+  .tag{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .5rem;border-radius:.4rem;background:var(--light);color:var(--muted);border:1px solid var(--border)}
+  .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:#fff;
+    padding:.75rem 1.25rem;border-radius:.875rem;font-size:.875rem;font-weight:500;
+    box-shadow:0 4px 16px rgba(0,0,0,.2);z-index:999;transition:opacity .3s}
+  .toast.error{background:var(--wine)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-view">
+  <div class="login-card">
+    <h1>Admin · Dr. JP</h1>
+    <p>Entre com sua conta para gerenciar o site.</p>
+    <div class="field"><label>E-mail</label><input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email"/></div>
+    <div class="field"><label>Senha</label><input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password"/></div>
+    <button class="btn btn-primary btn-full" id="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="error-msg hidden" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin-view" class="hidden">
+  <aside>
+    <div style="font-size:.9rem;font-weight:700;color:#fff;margin-bottom:1.5rem;letter-spacing:.02em">CMS · Dr. JP</div>
+    <h2>Conteúdo</h2>
+    <button class="nav-link active" id="nav-posts" onclick="showSection('posts')">Posts</button>
+    <button class="nav-link" id="nav-new" onclick="showSection('new')">Novo post</button>
+    <div class="spacer"></div>
+    <a href="/" class="nav-link" style="margin-bottom:.25rem">← Ver site</a>
+    <button class="nav-link danger" onclick="doLogout()">Sair</button>
+  </aside>
+
+  <main class="content">
+    <!-- POSTS LIST -->
+    <section id="section-posts">
+      <div class="content-header">
+        <h1>Posts</h1>
+        <button class="btn btn-wine btn-sm" onclick="showSection('new')">+ Novo post</button>
+      </div>
+      <table class="posts-table">
+        <thead><tr><th>Título</th><th>Status</th><th>Data</th><th></th></tr></thead>
+        <tbody id="posts-tbody"><tr><td colspan="4" style="color:var(--muted);text-align:center;padding:2rem">Carregando...</td></tr></tbody>
+      </table>
+    </section>
+
+    <!-- NEW / EDIT POST -->
+    <section id="section-new" class="hidden">
+      <div class="content-header">
+        <h1 id="form-title">Novo post</h1>
+        <button class="btn btn-ghost btn-sm" onclick="showSection('posts')">← Voltar</button>
+      </div>
+      <div class="form-card">
+        <input type="hidden" id="edit-id"/>
+        <div class="field"><label>Título</label><input type="text" id="f-title" placeholder="Título do artigo"/></div>
+        <div class="field"><label>Resumo <span class="tag">excerpt</span></label><textarea id="f-excerpt" rows="2" placeholder="Frase de abertura — aparece na listagem e no header do post"></textarea></div>
+        <div class="field"><label>Conteúdo <span class="tag">parágrafos separados por linha em branco</span></label><textarea id="f-content" rows="20" placeholder="Escreva o artigo aqui.&#10;&#10;Separe os parágrafos com uma linha em branco."></textarea></div>
+        <div class="form-row">
+          <div class="field">
+            <label>Imagem de capa <span class="tag">URL</span></label>
+            <input type="text" id="f-image" placeholder="https://..."/>
+          </div>
+          <div>
+            <label style="margin-bottom:.4rem;display:block;font-size:.8125rem;font-weight:600">Upload de imagem</label>
+            <input type="file" id="f-image-file" accept="image/*" onchange="uploadImage()"/>
+            <div id="upload-status" style="font-size:.75rem;color:var(--muted);margin-top:.4rem"></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="f-status"><option value="draft">Rascunho</option><option value="published">Publicado</option></select>
+        </div>
+        <div style="display:flex;gap:.75rem;margin-top:.5rem">
+          <button class="btn btn-primary" id="save-btn" onclick="savePost()">Salvar post</button>
+          <button class="btn btn-ghost" onclick="showSection('posts')">Cancelar</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://vptvxhfpmtrgpchxcpxe.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwdHZ4aGZwbXRyZ3BjaHhjcHhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MDU3OTgsImV4cCI6MjA5NDA4MTc5OH0.OeXftKBl-wFyKdalXwurOf4c7vE-x8OKZhqV9FgD6tk';
+
+let session = null;
+
+function headers(isJson = true) {
+  const h = { apikey: SUPABASE_KEY, Authorization: `Bearer ${session?.access_token || SUPABASE_KEY}` };
+  if (isJson) h['Content-Type'] = 'application/json';
+  return h;
+}
+
+function toast(msg, isError = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast' + (isError ? ' error' : '');
+  setTimeout(() => el.classList.add('hidden'), 3000);
+}
+
+function slugify(str) {
+  return str.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()
+    .trim().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-');
+}
+
+// --- AUTH ---
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  const btn   = document.getElementById('login-btn');
+  const err   = document.getElementById('login-error');
+  btn.innerHTML = '<span class="spinner"></span> Entrando…';
+  btn.disabled = true;
+  err.classList.add('hidden');
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error_description || data.msg || 'Credenciais inválidas');
+    session = data;
+    localStorage.setItem('jp_admin_session', JSON.stringify(data));
+    showAdmin();
+  } catch (e) {
+    err.textContent = e.message;
+    err.classList.remove('hidden');
+    btn.textContent = 'Entrar';
+    btn.disabled = false;
+  }
+}
+
+function doLogout() {
+  session = null;
+  localStorage.removeItem('jp_admin_session');
+  document.getElementById('admin-view').classList.add('hidden');
+  document.getElementById('login-view').classList.remove('hidden');
+}
+
+function showAdmin() {
+  document.getElementById('login-view').classList.add('hidden');
+  document.getElementById('admin-view').classList.remove('hidden');
+  showSection('posts');
+}
+
+// --- NAVIGATION ---
+function showSection(name) {
+  ['posts','new'].forEach(s => {
+    document.getElementById('section-'+s).classList.toggle('hidden', s !== name);
+    const nav = document.getElementById('nav-'+s);
+    if (nav) nav.classList.toggle('active', s === name);
+  });
+  if (name === 'posts') loadPosts();
+  if (name === 'new') resetForm();
+}
+
+// --- POSTS ---
+async function loadPosts() {
+  const tbody = document.getElementById('posts-tbody');
+  tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);text-align:center;padding:2rem">Carregando...</td></tr>';
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/posts?select=id,title,slug,status,published_at,created_at&order=created_at.desc`, { headers: headers() });
+    const posts = await res.json();
+    if (!Array.isArray(posts) || posts.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);text-align:center;padding:2rem">Nenhum post ainda.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = posts.map(p => `
+      <tr>
+        <td><strong>${p.title}</strong><br/><span style="font-size:.75rem;color:var(--muted)">${p.slug}</span></td>
+        <td><span class="badge ${p.status==='published'?'badge-pub':'badge-draft'}">${p.status==='published'?'Publicado':'Rascunho'}</span></td>
+        <td style="color:var(--muted);white-space:nowrap">${new Date(p.published_at||p.created_at).toLocaleDateString('pt-BR')}</td>
+        <td><div class="actions">
+          <button class="btn btn-sm btn-pastel" onclick="editPost('${p.id}')">Editar</button>
+          <button class="btn btn-sm ${p.status==='published'?'btn-ghost':'btn-wine'}" onclick="toggleStatus('${p.id}','${p.status}')">${p.status==='published'?'Despublicar':'Publicar'}</button>
+          <button class="btn btn-sm btn-ghost" onclick="deletePost('${p.id}','${p.title.replace(/'/g,\"'\")}')">Excluir</button>
+        </div></td>
+      </tr>`).join('');
+  } catch (e) {
+    tbody.innerHTML = `<tr><td colspan="4" style="color:var(--wine);text-align:center;padding:2rem">Erro: ${e.message}</td></tr>`;
+  }
+}
+
+async function toggleStatus(id, currentStatus) {
+  const newStatus = currentStatus === 'published' ? 'draft' : 'published';
+  const body = { status: newStatus, published_at: newStatus === 'published' ? new Date().toISOString() : null };
+  await fetch(`${SUPABASE_URL}/rest/v1/posts?id=eq.${id}`, {
+    method: 'PATCH', headers: { ...headers(), Prefer: 'return=minimal' }, body: JSON.stringify(body)
+  });
+  toast(newStatus === 'published' ? 'Post publicado!' : 'Post despublicado.');
+  loadPosts();
+}
+
+async function deletePost(id, title) {
+  if (!confirm(`Excluir "${title}"? Essa ação é irreversível.`)) return;
+  await fetch(`${SUPABASE_URL}/rest/v1/posts?id=eq.${id}`, { method: 'DELETE', headers: headers() });
+  toast('Post excluído.');
+  loadPosts();
+}
+
+async function editPost(id) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/posts?id=eq.${id}&select=*&limit=1`, { headers: headers() });
+  const [post] = await res.json();
+  document.getElementById('edit-id').value = post.id;
+  document.getElementById('f-title').value = post.title || '';
+  document.getElementById('f-excerpt').value = post.excerpt || '';
+  document.getElementById('f-content').value = post.content || '';
+  document.getElementById('f-image').value = post.featured_image_url || '';
+  document.getElementById('f-status').value = post.status || 'draft';
+  document.getElementById('form-title').textContent = 'Editar post';
+  showSection('new');
+  document.getElementById('section-new').classList.remove('hidden');
+  document.getElementById('section-posts').classList.add('hidden');
+}
+
+function resetForm() {
+  document.getElementById('edit-id').value = '';
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-excerpt').value = '';
+  document.getElementById('f-content').value = '';
+  document.getElementById('f-image').value = '';
+  document.getElementById('f-status').value = 'draft';
+  document.getElementById('form-title').textContent = 'Novo post';
+  document.getElementById('upload-status').textContent = '';
+}
+
+async function savePost() {
+  const id      = document.getElementById('edit-id').value;
+  const title   = document.getElementById('f-title').value.trim();
+  const excerpt = document.getElementById('f-excerpt').value.trim();
+  const content = document.getElementById('f-content').value.trim();
+  const image   = document.getElementById('f-image').value.trim();
+  const status  = document.getElementById('f-status').value;
+  if (!title) { toast('Título é obrigatório.', true); return; }
+
+  const btn = document.getElementById('save-btn');
+  btn.innerHTML = '<span class="spinner"></span> Salvando…';
+  btn.disabled = true;
+
+  try {
+    const body = { title, excerpt: excerpt||null, content: content||null, featured_image_url: image||null, status,
+      published_at: status === 'published' ? new Date().toISOString() : null };
+
+    if (id) {
+      await fetch(`${SUPABASE_URL}/rest/v1/posts?id=eq.${id}`, {
+        method: 'PATCH', headers: { ...headers(), Prefer: 'return=minimal' }, body: JSON.stringify(body)
+      });
+      toast('Post atualizado!');
+    } else {
+      const randSuffix = Math.random().toString(36).slice(2,7);
+      body.slug = `${slugify(title)}-${randSuffix}`;
+      body.author_id = session.user.id;
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/posts`, {
+        method: 'POST', headers: { ...headers(), Prefer: 'return=representation' }, body: JSON.stringify(body)
+      });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.message||JSON.stringify(e)); }
+      toast('Post criado!');
+    }
+    showSection('posts');
+  } catch (e) {
+    toast('Erro: ' + e.message, true);
+  } finally {
+    btn.textContent = 'Salvar post';
+    btn.disabled = false;
+  }
+}
+
+// --- UPLOAD DE IMAGEM ---
+async function uploadImage() {
+  const file = document.getElementById('f-image-file').files[0];
+  if (!file) return;
+  const status = document.getElementById('upload-status');
+  status.textContent = 'Enviando...';
+  try {
+    const ext = file.name.split('.').pop();
+    const path = `${session.user.id}/${Date.now()}.${ext}`;
+    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/media/${path}`, {
+      method: 'POST',
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${session.access_token}`, 'Content-Type': file.type },
+      body: file
+    });
+    if (!res.ok) throw new Error('Upload falhou');
+    const url = `${SUPABASE_URL}/storage/v1/object/public/media/${path}`;
+    document.getElementById('f-image').value = url;
+    status.textContent = '✓ Imagem enviada';
+    status.style.color = '#065f46';
+  } catch (e) {
+    status.textContent = 'Erro no upload: ' + e.message;
+    status.style.color = 'var(--wine)';
+  }
+}
+
+// --- INIT ---
+window.addEventListener('keydown', e => {
+  if ((e.ctrlKey||e.metaKey) && e.key === 'Enter') {
+    if (!document.getElementById('admin-view').classList.contains('hidden')) savePost();
+    else doLogin();
+  }
+});
+
+const stored = localStorage.getItem('jp_admin_session');
+if (stored) { try { session = JSON.parse(stored); showAdmin(); } catch { localStorage.removeItem('jp_admin_session'); } }
+</script>
+</body>
+</html>
