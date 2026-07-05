@@ -87,6 +87,25 @@
     <div class="field"><label>Senha</label><input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password"/></div>
     <button class="btn btn-primary btn-full" id="login-btn" onclick="doLogin()">Entrar</button>
     <div class="error-msg hidden" id="login-error"></div>
+    <p style="text-align:center;margin-top:1rem;font-size:.8rem;color:var(--muted)">
+      Primeira vez? <button onclick="toggleSignup()" style="background:none;border:none;color:var(--pastel);font-weight:600;cursor:pointer;font-size:.8rem">Criar conta</button>
+    </p>
+  </div>
+</div>
+
+<!-- SIGNUP MODAL -->
+<div id="signup-view" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100">
+  <div class="login-card">
+    <h1>Criar conta</h1>
+    <p>Registre-se para acessar o admin.</p>
+    <div class="field"><label>Nome</label><input type="text" id="signup-name" placeholder="Seu nome"/></div>
+    <div class="field"><label>E-mail</label><input type="email" id="signup-email" placeholder="seu@email.com"/></div>
+    <div class="field"><label>Senha</label><input type="password" id="signup-pass" placeholder="Mínimo 6 caracteres"/></div>
+    <button class="btn btn-wine btn-full" id="signup-btn" onclick="doSignup()">Criar conta</button>
+    <div class="error-msg hidden" id="signup-error"></div>
+    <p style="text-align:center;margin-top:1rem;font-size:.8rem;color:var(--muted)">
+      <button onclick="toggleSignup()" style="background:none;border:none;color:var(--pastel);font-weight:600;cursor:pointer;font-size:.8rem">← Voltar para o login</button>
+    </p>
   </div>
 </div>
 
@@ -361,6 +380,51 @@ async function uploadImage() {
   } catch (e) {
     status.textContent = 'Erro no upload: ' + e.message;
     status.style.color = 'var(--wine)';
+  }
+}
+
+// --- SIGNUP ---
+function toggleSignup() {
+  const el = document.getElementById('signup-view');
+  el.classList.toggle('hidden');
+  if (!el.classList.contains('hidden')) el.style.display = 'flex';
+  else el.style.display = '';
+}
+
+async function doSignup() {
+  const name  = document.getElementById('signup-name').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const pass  = document.getElementById('signup-pass').value;
+  const btn   = document.getElementById('signup-btn');
+  const err   = document.getElementById('signup-error');
+  if (!email || pass.length < 6) { err.textContent = 'E-mail e senha (mín. 6 chars) são obrigatórios.'; err.classList.remove('hidden'); return; }
+  btn.innerHTML = '<span class="spinner"></span> Criando…';
+  btn.disabled = true;
+  err.classList.add('hidden');
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
+      body: JSON.stringify({ email, password: pass, data: { full_name: name } })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.msg || data.error_description || JSON.stringify(data));
+    if (data.session) {
+      session = data.session;
+      localStorage.setItem('jp_admin_session', JSON.stringify(data.session));
+      toggleSignup();
+      showAdmin();
+    } else {
+      err.textContent = 'Conta criada! Verifique seu e-mail para confirmar, depois faça login.';
+      err.classList.remove('hidden');
+      err.style.color = '#065f46';
+    }
+  } catch (e) {
+    err.textContent = 'Erro: ' + e.message;
+    err.classList.remove('hidden');
+  } finally {
+    btn.textContent = 'Criar conta';
+    btn.disabled = false;
   }
 }
 
