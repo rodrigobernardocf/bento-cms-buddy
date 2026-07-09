@@ -1,13 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
 
-function getSession(cookieHeader: string | null): string | null {
-  if (!cookieHeader) return null;
-  const m = cookieHeader.match(/(?:^|;\s*)jp_admin=([^;]+)/);
+// createServerFn handler é compilado como server-only pelo plugin —
+// imports de @tanstack/react-start/server são permitidos aqui.
+const readSessionCookie = createServerFn({ method: "GET" }).handler(async () => {
+  const { getWebRequest } = await import("@tanstack/react-start/server");
+  const cookie = getWebRequest().headers.get("cookie");
+  if (!cookie) return null;
+  const m = cookie.match(/(?:^|;\s*)jp_admin=([^;]+)/);
   return m ? decodeURIComponent(m[1]) : null;
-}
+});
 
 function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
@@ -38,10 +43,7 @@ export const Route = createFileRoute("/painel")({
     id: typeof s.id === "string" ? s.id : undefined,
   }),
   loader: async ({ location }): Promise<LoaderResult> => {
-    // Dynamic import keeps this out of the client bundle (server-only)
-    const { getWebRequest } = await import("@tanstack/react-start/server");
-    const req = getWebRequest();
-    const token = getSession(req.headers.get("cookie"));
+    const token = await readSessionCookie();
     const search = location.search as Search;
 
     if (!token) return { authed: false, error: search.error };
