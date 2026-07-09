@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getWebRequest } from "@tanstack/react-start/server";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
@@ -39,6 +38,8 @@ export const Route = createFileRoute("/painel")({
     id: typeof s.id === "string" ? s.id : undefined,
   }),
   loader: async ({ location }): Promise<LoaderResult> => {
+    // Dynamic import keeps this out of the client bundle (server-only)
+    const { getWebRequest } = await import("@tanstack/react-start/server");
     const req = getWebRequest();
     const token = getSession(req.headers.get("cookie"));
     const search = location.search as Search;
