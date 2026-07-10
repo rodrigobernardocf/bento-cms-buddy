@@ -70,6 +70,16 @@ var style = document.createElement('style');
 style.textContent = css;
 document.head.appendChild(style);
 
+// ─── delete confirm (data-title avoids escaping nightmares) ─────────────
+
+document.addEventListener('submit', function(e) {
+  var form = e.target;
+  if (form && form.classList && form.classList.contains('confirm-delete')) {
+    var title = form.getAttribute('data-title') || 'este item';
+    if (!confirm('Excluir "' + title + '"?')) e.preventDefault();
+  }
+});
+
 // ─── helpers ────────────────────────────────────────────────────────────
 
 function esc(s) {
@@ -149,7 +159,7 @@ function renderPostsList(posts, error) {
               '<div class="adm-row-actions">' +
                 '<a class="adm-btn adm-btn-blue" href="/painel?view=edit&id=' + esc(p.id) + '">Editar</a>' +
                 '<a class="adm-btn adm-btn-ghost" href="/blog/' + esc(p.slug) + '" target="_blank" rel="noreferrer" style="font-size:.75rem">Ver</a>' +
-                '<form method="POST" action="/api/admin-delete-post" style="display:inline" onsubmit="return confirm(\'Excluir \\\"' + esc(p.title).replace(/'/g,"\\'") + '\\\"?\')">' +
+                '<form class="confirm-delete" data-title="' + esc(p.title) + '" method="POST" action="/api/admin-delete-post" style="display:inline">' +
                   '<input type="hidden" name="id" value="' + esc(p.id) + '">' +
                   '<button type="submit" class="adm-btn-danger">Excluir</button>' +
                 '</form>' +
