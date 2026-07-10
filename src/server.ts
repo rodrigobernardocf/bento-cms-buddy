@@ -435,7 +435,10 @@ function renderPostForm(post, error) {
 </body>
 </html>`;
   return new Response(html, {
-    headers: { "content-type": "text/html; charset=utf-8" },
+    headers: {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-store",
+    },
   });
 }
 
@@ -446,7 +449,7 @@ async function routeAdminRequest(req: Request): Promise<Response | null> {
   const path = url.pathname;
   const method = req.method;
 
-  if ((path === "/painel" || path === "/painel/") && method === "GET") return handlePainelPage();
+  if ((path.toLowerCase() === "/painel" || path.toLowerCase() === "/painel/") && method === "GET") return handlePainelPage();
   if (path === "/api/admin-login" && method === "POST") return handleAdminLogin(req);
   if (path === "/api/admin-logout") return handleAdminLogout();
   if (path === "/api/session-check" && method === "GET") return handleSessionCheck(req);
