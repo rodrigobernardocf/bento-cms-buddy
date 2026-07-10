@@ -231,6 +231,214 @@ async function handleAdminDeletePost(req: Request): Promise<Response> {
   return redirect("/painel");
 }
 
+// ─── Admin page HTML (no React/TanStack, pure vanilla) ───────────────────────
+
+function handlePainelPage(): Response {
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin · Dr. JP</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f5f3ef;color:#1a2744;min-height:100vh}
+#root{min-height:100vh}
+.lay{display:flex;min-height:100vh}
+.side{width:220px;background:#1a2744;color:#fff;padding:1.5rem;flex-shrink:0;display:flex;flex-direction:column;gap:.25rem}
+.logo{font-size:.9rem;font-weight:700;margin-bottom:1.5rem}
+.ng{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:.75rem 0 .35rem}
+.nl{display:block;padding:.5rem .75rem;border-radius:.75rem;font-size:.875rem;font-weight:500;color:rgba(255,255,255,.7);text-decoration:none}
+.nl:hover,.nl.on{color:#fff;background:rgba(255,255,255,.12)}
+.nl.out{color:#f87171}
+.sp{flex:1}
+.mn{flex:1;padding:2.5rem;overflow-y:auto}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem}
+h1{font-size:1.625rem;font-weight:600}
+.btn{display:inline-block;border:none;border-radius:.875rem;padding:.6rem 1.2rem;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.bp{background:#1a2744;color:#fff}
+.bw{background:#7a1c2e;color:#fff}
+.bb{background:#4a7ab5;color:#fff;border-radius:.75rem;padding:.45rem .9rem;font-size:.75rem;letter-spacing:0;text-transform:none}
+.bg{background:transparent;border:1px solid #e5e1d8;color:#8a8070}
+.bd{background:transparent;border:1px solid #fca5a5;color:#7a1c2e;border-radius:.75rem;padding:.45rem .9rem;font-size:.75rem;font-weight:700;cursor:pointer}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:1rem;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+th{background:#f0ede8;padding:.75rem 1rem;text-align:left;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a8070}
+td{padding:.875rem 1rem;border-top:1px solid #e5e1d8;font-size:.875rem;vertical-align:middle}
+.pub{display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;background:#d1fae5;color:#065f46}
+.drf{display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;background:#f0ede8;color:#8a8070}
+.card{background:#fff;border:1px solid #e5e1d8;border-radius:1.25rem;padding:2rem;max-width:860px}
+.fld{margin-bottom:1.1rem}
+label{display:block;font-size:.8125rem;font-weight:600;margin-bottom:.4rem}
+input,textarea,select{width:100%;border:1px solid #e5e1d8;border-radius:.75rem;padding:.6rem .875rem;font-size:.9rem;font-family:inherit;background:#fff;outline:none}
+textarea{line-height:1.7;resize:vertical}
+.err{background:#fef2f2;border:1px solid #fca5a5;border-radius:.75rem;padding:.75rem 1rem;font-size:.8rem;color:#7a1c2e;margin-bottom:1rem}
+.mt{color:#8a8070;font-size:.8rem}
+.lwrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
+.lcard{background:#fff;border:1px solid #e5e1d8;border-radius:1.5rem;padding:2.5rem;width:100%;max-width:400px;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.lcard h1{font-size:1.5rem;font-weight:600;margin-bottom:.25rem}
+.acts{display:flex;gap:.5rem;align-items:center}
+</style>
+</head>
+<body>
+<div id="root"><div style="display:flex;align-items:center;justify-content:center;min-height:100vh;color:#8a8070">Carregando...</div></div>
+<script>
+(function() {
+
+function esc(s) {
+  if (!s) return "";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function fmtDate(iso) {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleDateString("pt-BR",{day:"2-digit",month:"short",year:"numeric"});
+}
+
+var root = document.getElementById("root");
+
+document.addEventListener("submit", function(e) {
+  var f = e.target;
+  if (f && f.classList && f.classList.contains("confirm-delete")) {
+    var t = f.getAttribute("data-title") || "este item";
+    if (!confirm('Excluir "' + t + '"?')) e.preventDefault();
+  }
+});
+
+function params() { return new URLSearchParams(location.search); }
+
+function sidebar(view) {
+  function nl(href, label, v) {
+    var cls = "nl" + (view === v ? " on" : "");
+    return '<a class="' + cls + '" href="' + href + '">' + label + "</a>";
+  }
+  return '<aside class="side">' +
+    '<div class="logo">CMS · Dr. JP</div>' +
+    '<div class="ng">Conteúdo</div>' +
+    nl("/painel", "Posts", "posts") +
+    nl("/painel?view=new", "Novo post", "new") +
+    '<div class="sp"></div>' +
+    '<a class="nl" href="/" style="color:rgba(255,255,255,.5)">← Ver site</a>' +
+    '<a class="nl out" href="/api/admin-logout">Sair</a>' +
+    "</aside>";
+}
+
+function renderLogin(error) {
+  var errHtml = error ? '<div class="err">' + esc(decodeURIComponent(error)) + "</div>" : "";
+  root.innerHTML =
+    '<div class="lwrap"><div class="lcard">' +
+    "<h1>Admin · Dr. JP</h1>" +
+    '<p class="mt" style="margin-bottom:1.75rem">Entre com sua conta para gerenciar o site.</p>' +
+    errHtml +
+    '<form method="POST" action="/api/admin-login">' +
+    '<div class="fld"><label>E-mail</label><input type="email" name="email" placeholder="seu@email.com" autocomplete="email" required></div>' +
+    '<div class="fld"><label>Senha</label><input type="password" name="password" placeholder="••••••••" autocomplete="current-password" required></div>' +
+    '<button type="submit" class="btn bp" style="width:100%">Entrar</button>' +
+    "</form></div></div>";
+}
+
+function renderPostsList(posts, error) {
+  var errHtml = error ? '<div class="err">' + esc(decodeURIComponent(error)) + "</div>" : "";
+  var rows;
+  if (posts.length === 0) {
+    rows = '<tr><td colspan="4" style="text-align:center;color:#8a8070;padding:2rem">Nenhum post ainda. <a href="/painel?view=new" style="color:#7a1c2e">Criar o primeiro →</a></td></tr>';
+  } else {
+    rows = posts.map(function(p) {
+      return "<tr>" +
+        "<td><strong>" + esc(p.title) + "</strong><br><span class='mt'>" + esc(p.slug) + "</span></td>" +
+        "<td><span class='" + (p.status === "published" ? "pub" : "drf") + "'>" + (p.status === "published" ? "Publicado" : "Rascunho") + "</span></td>" +
+        "<td class='mt' style='white-space:nowrap'>" + fmtDate(p.published_at || p.created_at) + "</td>" +
+        "<td><div class='acts'>" +
+          "<a class='btn bb' href='/painel?view=edit&id=" + esc(p.id) + "'>Editar</a>" +
+          "<a class='btn bg' href='/blog/" + esc(p.slug) + "' target='_blank' style='font-size:.75rem'>Ver</a>" +
+          "<form class='confirm-delete' data-title='" + esc(p.title) + "' method='POST' action='/api/admin-delete-post' style='display:inline'>" +
+            "<input type='hidden' name='id' value='" + esc(p.id) + "'>" +
+            "<button type='submit' class='bd'>Excluir</button>" +
+          "</form>" +
+        "</div></td>" +
+        "</tr>";
+    }).join("");
+  }
+  root.innerHTML =
+    '<div class="lay">' + sidebar("posts") +
+    '<main class="mn">' +
+    '<div class="hdr"><h1>Posts</h1><a class="btn bw" href="/painel?view=new">+ Novo post</a></div>' +
+    errHtml +
+    "<table><thead><tr><th>Título</th><th>Status</th><th>Data</th><th></th></tr></thead>" +
+    "<tbody>" + rows + "</tbody></table>" +
+    "</main></div>";
+}
+
+function renderPostForm(post, error) {
+  var isEdit = !!post;
+  var errHtml = error ? '<div class="err">' + esc(decodeURIComponent(error)) + "</div>" : "";
+  root.innerHTML =
+    '<div class="lay">' + sidebar(isEdit ? "edit" : "new") +
+    '<main class="mn">' +
+    '<div class="hdr"><h1>' + (isEdit ? "Editar post" : "Novo post") + "</h1>" +
+    '<a class="btn bg" href="/painel">← Voltar</a></div>' +
+    errHtml +
+    '<div class="card"><form method="POST" action="/api/admin-save-post">' +
+    (isEdit ? "<input type='hidden' name='id' value='" + esc(post.id) + "'>" : "") +
+    '<div class="fld"><label>Título</label><input type="text" name="title" value="' + esc(post ? post.title : "") + '" placeholder="Título do artigo" required></div>' +
+    '<div class="fld"><label>Resumo (excerpt)</label><textarea name="excerpt" rows="2" placeholder="Frase de abertura">' + esc(post && post.excerpt ? post.excerpt : "") + "</textarea></div>" +
+    '<div class="fld"><label>Conteúdo</label><textarea name="content" rows="22" placeholder="Escreva o artigo aqui. Separe parágrafos com linha em branco.">' + esc(post && post.content ? post.content : "") + "</textarea></div>" +
+    '<div class="fld"><label>URL da imagem de capa</label><input type="url" name="image" value="' + esc(post && post.featured_image_url ? post.featured_image_url : "") + '" placeholder="https://..."></div>' +
+    '<div class="fld"><label>Status</label><select name="status">' +
+    '<option value="draft"' + (!post || post.status !== "published" ? " selected" : "") + ">Rascunho</option>" +
+    '<option value="published"' + (post && post.status === "published" ? " selected" : "") + ">Publicado</option>" +
+    "</select></div>" +
+    '<div style="display:flex;gap:.75rem;margin-top:.5rem">' +
+    '<button type="submit" class="btn bp">' + (isEdit ? "Salvar alterações" : "Criar post") + "</button>" +
+    '<a class="btn bg" href="/painel">Cancelar</a>' +
+    "</div></form></div>" +
+    "</main></div>";
+}
+
+(async function() {
+  var p = params();
+  var view = p.get("view") || "posts";
+  var id = p.get("id");
+  var error = p.get("error");
+
+  var session;
+  try {
+    session = await fetch("/api/session-check").then(function(r) { return r.json(); });
+  } catch(e) {
+    session = { authed: false };
+  }
+
+  if (!session.authed) {
+    renderLogin(error);
+    return;
+  }
+
+  var postsData;
+  try {
+    postsData = await fetch("/api/admin-posts").then(function(r) { return r.json(); });
+  } catch(e) {
+    postsData = { posts: [] };
+  }
+  var posts = postsData.posts || [];
+
+  if (view === "new") {
+    renderPostForm(null, error);
+  } else if (view === "edit" && id) {
+    var post = posts.find(function(x) { return x.id === id; });
+    renderPostForm(post || null, error);
+  } else {
+    renderPostsList(posts, error);
+  }
+})();
+
+})();
+</script>
+</body>
+</html>`;
+  return new Response(html, {
+    headers: { "content-type": "text/html; charset=utf-8" },
+  });
+}
+
 // ─── Router ──────────────────────────────────────────────────────────────────
 
 async function routeAdminRequest(req: Request): Promise<Response | null> {
@@ -238,6 +446,7 @@ async function routeAdminRequest(req: Request): Promise<Response | null> {
   const path = url.pathname;
   const method = req.method;
 
+  if ((path === "/painel" || path === "/painel/") && method === "GET") return handlePainelPage();
   if (path === "/api/admin-login" && method === "POST") return handleAdminLogin(req);
   if (path === "/api/admin-logout") return handleAdminLogout();
   if (path === "/api/session-check" && method === "GET") return handleSessionCheck(req);
