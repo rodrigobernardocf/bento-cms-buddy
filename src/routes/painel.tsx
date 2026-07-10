@@ -4,13 +4,11 @@ import { createServerFn } from "@tanstack/react-start";
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
 
-// createServerFn handler é compilado como server-only pelo plugin —
-// imports de @tanstack/react-start/server são permitidos aqui.
 const readSessionCookie = createServerFn({ method: "GET" }).handler(async () => {
-  const { getWebRequest } = await import("@tanstack/react-start/server");
-  const cookie = getWebRequest().headers.get("cookie");
-  if (!cookie) return null;
-  const m = cookie.match(/(?:^|;\s*)jp_admin=([^;]+)/);
+  const { getRequestHeader } = await import("vinxi/http");
+  const cookieHeader = getRequestHeader("cookie") ?? "";
+  if (!cookieHeader) return null;
+  const m = cookieHeader.match(/(?:^|;\s*)jp_admin=([^;]+)/);
   return m ? decodeURIComponent(m[1]) : null;
 });
 
