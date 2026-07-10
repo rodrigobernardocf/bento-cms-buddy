@@ -381,7 +381,7 @@ function renderPostForm(post, error) {
     (isEdit ? "<input type='hidden' name='id' value='" + esc(post.id) + "'>" : "") +
     '<div class="fld"><label>Título</label><input type="text" name="title" value="' + esc(post ? post.title : "") + '" placeholder="Título do artigo" required></div>' +
     '<div class="fld"><label>Resumo (excerpt)</label><textarea name="excerpt" rows="2" placeholder="Frase de abertura">' + esc(post && post.excerpt ? post.excerpt : "") + "</textarea></div>" +
-    '<div class="fld"><label>Conteúdo</label><textarea name="content" rows="22" placeholder="Escreva o artigo aqui. Separe parágrafos com linha em branco.">' + esc(post && post.content ? post.content : "") + "</textarea></div>" +
+    '<div class="fld"><label>Conteúdo</label><textarea name="content" rows="22" placeholder="Escreva o artigo aqui.\n\nSepare parágrafos com uma linha em branco.\n\nPara inserir imagem no meio do texto, cole a URL da imagem sozinha em um parágrafo:\n\nhttps://exemplo.com/imagem.jpg">' + esc(post && post.content ? post.content : "") + "</textarea></div>" +
     '<div class="fld"><label>URL da imagem de capa</label><input type="url" name="image" value="' + esc(post && post.featured_image_url ? post.featured_image_url : "") + '" placeholder="https://..."></div>' +
     '<div class="fld"><label>Status</label><select name="status">' +
     '<option value="draft"' + (!post || post.status !== "published" ? " selected" : "") + ">Rascunho</option>" +

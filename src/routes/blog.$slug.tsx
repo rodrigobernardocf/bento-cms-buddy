@@ -61,6 +61,10 @@ function readingTime(content: string | null) {
   return `${mins} min de leitura`;
 }
 
+function isImgUrl(text: string) {
+  return /^https?:\/\/\S+\.(jpg|jpeg|png|webp|gif|avif|svg)(\?[^\s]*)?$/i.test(text.trim());
+}
+
 function PostPage() {
   const { post, related } = Route.useLoaderData();
   const paragraphs = (post.content ?? "").split(/\n{2,}/).filter(Boolean);
@@ -114,9 +118,13 @@ function PostPage() {
           {/* Conteúdo do artigo */}
           <article className="flex-1 min-w-0">
             <div className="space-y-6 text-[17px] leading-[1.85] text-classic-navy/80">
-              {paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
+              {paragraphs.map((p, i) =>
+                isImgUrl(p) ? (
+                  <img key={i} src={p.trim()} alt="" className="w-full rounded-2xl shadow-md" />
+                ) : (
+                  <p key={i}>{p}</p>
+                )
+              )}
             </div>
 
             {/* CTA inline no fim do artigo */}
