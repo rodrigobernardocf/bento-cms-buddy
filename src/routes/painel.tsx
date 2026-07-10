@@ -1,304 +1,269 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
-
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
-
-const readSessionCookie = createServerFn({ method: "GET" }).handler(async () => {
-  const { getRequestHeader } = await import("vinxi/http");
-  const cookieHeader = getRequestHeader("cookie") ?? "";
-  if (!cookieHeader) return null;
-  const m = cookieHeader.match(/(?:^|;\s*)jp_admin=([^;]+)/);
-  return m ? decodeURIComponent(m[1]) : null;
-});
-
-function fmtDate(iso: string) {
-  return new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
-}
-
-interface Post {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  content: string | null;
-  featured_image_url: string | null;
-  status: string;
-  published_at: string | null;
-  created_at: string;
-}
-
-type Search = { error?: string; view: string; id?: string };
-
-type LoaderResult =
-  | { authed: false; error?: string }
-  | { authed: true; posts: Post[]; editPost?: Post; view: string; error?: string };
 
 export const Route = createFileRoute("/painel")({
-  validateSearch: (s: Record<string, unknown>): Search => ({
-    error: typeof s.error === "string" ? s.error : undefined,
-    view: typeof s.view === "string" ? s.view : "posts",
-    id: typeof s.id === "string" ? s.id : undefined,
+  head: () => ({
+    meta: [{ title: "Admin · Dr. JP" }],
   }),
-  loader: async ({ location }): Promise<LoaderResult> => {
-    const token = await readSessionCookie();
-    const search = location.search as Search;
-
-    if (!token) return { authed: false, error: search.error };
-
-    const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${token}` },
-    });
-    if (!userRes.ok) return { authed: false, error: "Sessão expirada. Entre novamente." };
-
-    const postsRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/posts?select=id,title,slug,excerpt,content,featured_image_url,status,published_at,created_at&order=created_at.desc`,
-      { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${token}` } }
-    );
-    const posts: Post[] = postsRes.ok ? await postsRes.json() : [];
-
-    const editPost =
-      search.view === "edit" && search.id
-        ? posts.find((p) => p.id === search.id)
-        : undefined;
-
-    return { authed: true, posts, editPost, view: search.view, error: search.error };
-  },
-  component: PainelPage,
+  component: PainelShell,
 });
 
-/* ─── styles ─────────────────────────────────────────────────────────── */
-const S = {
-  root: "font-family:'Helvetica Neue',Arial,sans-serif;background:#f5f3ef;color:#1a2744;min-height:100vh",
-  // login
-  loginWrap: "display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem",
-  card: "background:#fff;border:1px solid #e5e1d8;border-radius:1.5rem;padding:2.5rem;width:100%;max-width:400px;box-shadow:0 4px 24px rgba(0,0,0,.06)",
-  h1: "font-size:1.5rem;font-weight:600;margin-bottom:.25rem",
-  muted: "color:#8a8070;font-size:.875rem;margin-bottom:1.75rem",
-  label: "display:block;font-size:.8125rem;font-weight:600;margin-bottom:.4rem",
-  input: "width:100%;border:1px solid #e5e1d8;border-radius:.75rem;padding:.6rem .875rem;font-size:.9rem;background:#fff;outline:none;font-family:inherit;box-sizing:border-box",
-  field: "margin-bottom:1.1rem",
-  btnPrimary: "width:100%;background:#1a2744;color:#fff;border:none;border-radius:.875rem;padding:.75rem 1.25rem;font-size:.8125rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer",
-  btnWine: "background:#7a1c2e;color:#fff;border:none;border-radius:.875rem;padding:.55rem 1rem;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer",
-  btnGhost: "background:transparent;color:#8a8070;border:1px solid #e5e1d8;border-radius:.875rem;padding:.55rem 1rem;font-size:.75rem;font-weight:700;cursor:pointer",
-  btnSmBlue: "background:#4a7ab5;color:#fff;border:none;border-radius:.75rem;padding:.45rem .9rem;font-size:.75rem;font-weight:700;cursor:pointer",
-  // admin layout
-  layout: "display:flex;min-height:100vh",
-  aside: "width:220px;background:#1a2744;color:#fff;padding:1.5rem;flex-shrink:0;display:flex;flex-direction:column;gap:.25rem",
-  asideTitle: "font-size:.9rem;font-weight:700;margin-bottom:1.5rem;letter-spacing:.02em",
-  navGroup: "font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.5rem;margin-top:1rem",
-  navLink: "display:block;padding:.5rem .75rem;border-radius:.75rem;font-size:.875rem;font-weight:500;color:rgba(255,255,255,.7);text-decoration:none",
-  navLinkActive: "display:block;padding:.5rem .75rem;border-radius:.75rem;font-size:.875rem;font-weight:500;color:#fff;background:rgba(255,255,255,.12);text-decoration:none",
-  content: "flex:1;padding:2.5rem;overflow-y:auto",
-  contentHeader: "display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem",
-  pageTitle: "font-size:1.625rem;font-weight:600",
-  table: "width:100%;border-collapse:collapse;background:#fff;border-radius:1rem;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)",
-  th: "background:#f0ede8;padding:.75rem 1rem;text-align:left;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a8070",
-  td: "padding:.875rem 1rem;border-top:1px solid #e5e1d8;font-size:.875rem;vertical-align:middle",
-  badgePub: "display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;background:#d1fae5;color:#065f46",
-  badgeDraft: "display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;background:#f0ede8;color:#8a8070",
-  // form
-  formCard: "background:#fff;border:1px solid #e5e1d8;border-radius:1.25rem;padding:2rem;max-width:860px",
-  textarea: "width:100%;border:1px solid #e5e1d8;border-radius:.75rem;padding:.6rem .875rem;font-size:.9rem;font-family:inherit;line-height:1.7;resize:vertical;box-sizing:border-box",
-  select: "width:100%;border:1px solid #e5e1d8;border-radius:.75rem;padding:.6rem .875rem;font-size:.9rem;font-family:inherit;background:#fff",
-  errBox: "background:#fef2f2;border:1px solid #fca5a5;border-radius:.75rem;padding:.75rem 1rem;font-size:.8rem;color:#7a1c2e;margin-bottom:1rem",
-};
+function PainelShell() {
+  return (
+    <>
+      <div id="painel-root" />
+      {/* Plain inline script — not a module, runs independently of TanStack hydration */}
+      <script dangerouslySetInnerHTML={{ __html: ADMIN_SCRIPT }} />
+    </>
+  );
+}
 
-/* ─── page root ─────────────────────────────────────────────────────── */
-function PainelPage() {
-  const data = Route.useLoaderData();
-  const search = Route.useSearch();
+/* ─── All admin logic as a self-contained inline script ─────────────────
+   Uses fetch() to /api/session-check and /api/admin-posts.
+   Forms POST directly to /api/admin-* endpoints (no JS needed for submit).
+   ──────────────────────────────────────────────────────────────────────── */
+const ADMIN_SCRIPT = /* js */ `
+(function() {
 
-  if (!data.authed) {
-    return (
-      <div style={{ fontFamily: "'Helvetica Neue',Arial,sans-serif", background: "#f5f3ef", color: "#1a2744", minHeight: "100vh" }}>
-        <LoginView error={data.error} />
-      </div>
-    );
+var root = document.getElementById('painel-root');
+
+var css = [
+  'html,body{margin:0;padding:0}',
+  '#painel-root{font-family:"Helvetica Neue",Arial,sans-serif;background:#f5f3ef;color:#1a2744;min-height:100vh}',
+  '.adm-layout{display:flex;min-height:100vh}',
+  '.adm-sidebar{width:220px;background:#1a2744;color:#fff;padding:1.5rem;flex-shrink:0;display:flex;flex-direction:column;gap:.25rem}',
+  '.adm-logo{font-size:.9rem;font-weight:700;margin-bottom:1.5rem}',
+  '.adm-nav-group{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:.75rem 0 .35rem}',
+  '.adm-link{display:block;padding:.5rem .75rem;border-radius:.75rem;font-size:.875rem;font-weight:500;color:rgba(255,255,255,.7);text-decoration:none;cursor:pointer}',
+  '.adm-link:hover{color:#fff;background:rgba(255,255,255,.08)}',
+  '.adm-link.active{color:#fff;background:rgba(255,255,255,.12)}',
+  '.adm-link.danger{color:#f87171}',
+  '.adm-spacer{flex:1}',
+  '.adm-main{flex:1;padding:2.5rem;overflow-y:auto}',
+  '.adm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem}',
+  '.adm-title{font-size:1.625rem;font-weight:600}',
+  '.adm-btn{border:none;border-radius:.875rem;padding:.6rem 1.2rem;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block}',
+  '.adm-btn-primary{background:#1a2744;color:#fff}',
+  '.adm-btn-wine{background:#7a1c2e;color:#fff}',
+  '.adm-btn-blue{background:#4a7ab5;color:#fff;border-radius:.75rem;padding:.45rem .9rem;font-size:.75rem}',
+  '.adm-btn-ghost{background:transparent;border:1px solid #e5e1d8;color:#8a8070;border-radius:.875rem;padding:.5rem 1rem;font-size:.8rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}',
+  '.adm-btn-danger{background:transparent;border:1px solid #fca5a5;color:#7a1c2e;border-radius:.75rem;padding:.45rem .9rem;font-size:.75rem;font-weight:700;cursor:pointer}',
+  '.adm-table{width:100%;border-collapse:collapse;background:#fff;border-radius:1rem;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}',
+  '.adm-th{background:#f0ede8;padding:.75rem 1rem;text-align:left;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a8070}',
+  '.adm-td{padding:.875rem 1rem;border-top:1px solid #e5e1d8;font-size:.875rem;vertical-align:middle}',
+  '.adm-badge-pub{display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;background:#d1fae5;color:#065f46}',
+  '.adm-badge-draft{display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;background:#f0ede8;color:#8a8070}',
+  '.adm-card{background:#fff;border:1px solid #e5e1d8;border-radius:1.25rem;padding:2rem;max-width:860px}',
+  '.adm-field{margin-bottom:1.1rem}',
+  '.adm-label{display:block;font-size:.8125rem;font-weight:600;margin-bottom:.4rem}',
+  '.adm-input{width:100%;border:1px solid #e5e1d8;border-radius:.75rem;padding:.6rem .875rem;font-size:.9rem;font-family:inherit;background:#fff;box-sizing:border-box;outline:none}',
+  '.adm-textarea{width:100%;border:1px solid #e5e1d8;border-radius:.75rem;padding:.6rem .875rem;font-size:.9rem;font-family:inherit;line-height:1.7;resize:vertical;box-sizing:border-box}',
+  '.adm-select{width:100%;border:1px solid #e5e1d8;border-radius:.75rem;padding:.6rem .875rem;font-size:.9rem;font-family:inherit;background:#fff}',
+  '.adm-err{background:#fef2f2;border:1px solid #fca5a5;border-radius:.75rem;padding:.75rem 1rem;font-size:.8rem;color:#7a1c2e;margin-bottom:1rem}',
+  '.adm-muted{color:#8a8070;font-size:.8rem}',
+  '.adm-login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}',
+  '.adm-login-card{background:#fff;border:1px solid #e5e1d8;border-radius:1.5rem;padding:2.5rem;width:100%;max-width:400px;box-shadow:0 4px 24px rgba(0,0,0,.06)}',
+  '.adm-login-title{font-size:1.5rem;font-weight:600;margin-bottom:.25rem}',
+  '.adm-row-actions{display:flex;gap:.5rem;align-items:center}',
+].join('\\n');
+
+var style = document.createElement('style');
+style.textContent = css;
+document.head.appendChild(style);
+
+// ─── helpers ────────────────────────────────────────────────────────────
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function fmtDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function params() {
+  return new URLSearchParams(location.search);
+}
+
+// ─── loading ─────────────────────────────────────────────────────────────
+
+root.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;color:#8a8070">Carregando...</div>';
+
+// ─── views ───────────────────────────────────────────────────────────────
+
+function renderLogin(error) {
+  var errHtml = error
+    ? '<div class="adm-err">' + esc(decodeURIComponent(error)) + '</div>'
+    : '';
+  root.innerHTML =
+    '<div class="adm-login-wrap">' +
+      '<div class="adm-login-card">' +
+        '<h1 class="adm-login-title">Admin · Dr. JP</h1>' +
+        '<p class="adm-muted" style="margin-bottom:1.75rem">Entre com sua conta para gerenciar o site.</p>' +
+        errHtml +
+        '<form method="POST" action="/api/admin-login">' +
+          '<div class="adm-field"><label class="adm-label">E-mail</label>' +
+            '<input class="adm-input" type="email" name="email" placeholder="seu@email.com" autocomplete="email" required></div>' +
+          '<div class="adm-field"><label class="adm-label">Senha</label>' +
+            '<input class="adm-input" type="password" name="password" placeholder="••••••••" autocomplete="current-password" required></div>' +
+          '<button type="submit" class="adm-btn adm-btn-primary" style="width:100%">Entrar</button>' +
+        '</form>' +
+      '</div>' +
+    '</div>';
+}
+
+function sidebarHtml(view) {
+  function navLink(href, label, v) {
+    var active = (view === v || (!view && v === 'posts')) ? ' active' : '';
+    return '<a class="adm-link' + active + '" href="' + href + '">' + label + '</a>';
+  }
+  return (
+    '<aside class="adm-sidebar">' +
+      '<div class="adm-logo">CMS · Dr. JP</div>' +
+      '<div class="adm-nav-group">Conteúdo</div>' +
+      navLink('/painel', 'Posts', 'posts') +
+      navLink('/painel?view=new', 'Novo post', 'new') +
+      '<div class="adm-spacer"></div>' +
+      '<a class="adm-link" href="/" style="color:rgba(255,255,255,.5)">← Ver site</a>' +
+      '<a class="adm-link danger" href="/api/admin-logout">Sair</a>' +
+    '</aside>'
+  );
+}
+
+function renderPostsList(posts, error) {
+  var errHtml = error
+    ? '<div class="adm-err">' + esc(decodeURIComponent(error)) + '</div>'
+    : '';
+  var rows = posts.length === 0
+    ? '<tr><td class="adm-td" colspan="4" style="text-align:center;color:#8a8070">Nenhum post ainda. <a href="/painel?view=new" style="color:#7a1c2e">Criar o primeiro →</a></td></tr>'
+    : posts.map(function(p) {
+        return (
+          '<tr>' +
+            '<td class="adm-td"><strong>' + esc(p.title) + '</strong><br>' +
+              '<span class="adm-muted">' + esc(p.slug) + '</span></td>' +
+            '<td class="adm-td"><span class="' + (p.status === 'published' ? 'adm-badge-pub' : 'adm-badge-draft') + '">' +
+              (p.status === 'published' ? 'Publicado' : 'Rascunho') + '</span></td>' +
+            '<td class="adm-td adm-muted" style="white-space:nowrap">' + fmtDate(p.published_at || p.created_at) + '</td>' +
+            '<td class="adm-td">' +
+              '<div class="adm-row-actions">' +
+                '<a class="adm-btn adm-btn-blue" href="/painel?view=edit&id=' + esc(p.id) + '">Editar</a>' +
+                '<a class="adm-btn adm-btn-ghost" href="/blog/' + esc(p.slug) + '" target="_blank" rel="noreferrer" style="font-size:.75rem">Ver</a>' +
+                '<form method="POST" action="/api/admin-delete-post" style="display:inline" onsubmit="return confirm(\'Excluir \\\"' + esc(p.title).replace(/'/g,"\\'") + '\\\"?\')">' +
+                  '<input type="hidden" name="id" value="' + esc(p.id) + '">' +
+                  '<button type="submit" class="adm-btn-danger">Excluir</button>' +
+                '</form>' +
+              '</div>' +
+            '</td>' +
+          '</tr>'
+        );
+      }).join('');
+
+  root.innerHTML =
+    '<div class="adm-layout">' +
+      sidebarHtml('posts') +
+      '<main class="adm-main">' +
+        '<div class="adm-header">' +
+          '<h1 class="adm-title">Posts</h1>' +
+          '<a class="adm-btn adm-btn-wine" href="/painel?view=new">+ Novo post</a>' +
+        '</div>' +
+        errHtml +
+        '<table class="adm-table">' +
+          '<thead><tr>' +
+            '<th class="adm-th">Título</th>' +
+            '<th class="adm-th">Status</th>' +
+            '<th class="adm-th">Data</th>' +
+            '<th class="adm-th"></th>' +
+          '</tr></thead>' +
+          '<tbody>' + rows + '</tbody>' +
+        '</table>' +
+      '</main>' +
+    '</div>';
+}
+
+function renderPostForm(post, error) {
+  var isEdit = !!post;
+  var view = isEdit ? 'edit' : 'new';
+  var errHtml = error
+    ? '<div class="adm-err">' + esc(decodeURIComponent(error)) + '</div>'
+    : '';
+  root.innerHTML =
+    '<div class="adm-layout">' +
+      sidebarHtml(view) +
+      '<main class="adm-main">' +
+        '<div class="adm-header">' +
+          '<h1 class="adm-title">' + (isEdit ? 'Editar post' : 'Novo post') + '</h1>' +
+          '<a class="adm-btn adm-btn-ghost" href="/painel">← Voltar</a>' +
+        '</div>' +
+        errHtml +
+        '<div class="adm-card">' +
+          '<form method="POST" action="/api/admin-save-post">' +
+            (isEdit ? '<input type="hidden" name="id" value="' + esc(post.id) + '">' : '') +
+            '<div class="adm-field"><label class="adm-label">Título</label>' +
+              '<input class="adm-input" type="text" name="title" value="' + esc(post ? post.title : '') + '" placeholder="Título do artigo" required></div>' +
+            '<div class="adm-field"><label class="adm-label">Resumo (excerpt)</label>' +
+              '<textarea class="adm-textarea" name="excerpt" rows="2" placeholder="Frase de abertura — aparece na listagem e no header do post">' + esc(post && post.excerpt ? post.excerpt : '') + '</textarea></div>' +
+            '<div class="adm-field"><label class="adm-label">Conteúdo (parágrafos separados por linha em branco)</label>' +
+              '<textarea class="adm-textarea" name="content" rows="22" placeholder="Escreva o artigo aqui.\n\nSepare os parágrafos com uma linha em branco.">' + esc(post && post.content ? post.content : '') + '</textarea></div>' +
+            '<div class="adm-field"><label class="adm-label">URL da imagem de capa</label>' +
+              '<input class="adm-input" type="url" name="image" value="' + esc(post && post.featured_image_url ? post.featured_image_url : '') + '" placeholder="https://..."></div>' +
+            '<div class="adm-field"><label class="adm-label">Status</label>' +
+              '<select class="adm-select" name="status">' +
+                '<option value="draft"' + (!post || post.status !== 'published' ? ' selected' : '') + '>Rascunho</option>' +
+                '<option value="published"' + (post && post.status === 'published' ? ' selected' : '') + '>Publicado</option>' +
+              '</select></div>' +
+            '<div style="display:flex;gap:.75rem;margin-top:.5rem">' +
+              '<button type="submit" class="adm-btn adm-btn-primary">' + (isEdit ? 'Salvar alterações' : 'Criar post') + '</button>' +
+              '<a class="adm-btn adm-btn-ghost" href="/painel">Cancelar</a>' +
+            '</div>' +
+          '</form>' +
+        '</div>' +
+      '</main>' +
+    '</div>';
+}
+
+// ─── main ─────────────────────────────────────────────────────────────────
+
+(async function() {
+  var p = params();
+  var view = p.get('view') || 'posts';
+  var id   = p.get('id');
+  var error = p.get('error');
+
+  // Check auth
+  var session;
+  try {
+    var r = await fetch('/api/session-check');
+    session = await r.json();
+  } catch(e) {
+    session = { authed: false };
   }
 
-  const { posts, editPost, view, error } = data;
-  const showForm = view === "new" || view === "edit";
+  if (!session.authed) {
+    renderLogin(error);
+    return;
+  }
 
-  return (
-    <div style={{ fontFamily: "'Helvetica Neue',Arial,sans-serif", background: "#f5f3ef", color: "#1a2744", minHeight: "100vh", display: "flex" }}>
-      {/* Sidebar */}
-      <aside style={{ width: 220, background: "#1a2744", color: "#fff", padding: "1.5rem", flexShrink: 0, display: "flex", flexDirection: "column" }}>
-        <div style={{ fontSize: ".9rem", fontWeight: 700, marginBottom: "1.5rem" }}>CMS · Dr. JP</div>
-        <div style={{ fontSize: ".7rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(255,255,255,.35)", marginBottom: ".5rem" }}>Conteúdo</div>
-        <a href="/painel" style={{ ...(showForm ? {} : { background: "rgba(255,255,255,.12)", color: "#fff" }), display: "block", padding: ".5rem .75rem", borderRadius: ".75rem", fontSize: ".875rem", fontWeight: 500, color: showForm ? "rgba(255,255,255,.7)" : "#fff", textDecoration: "none", marginBottom: ".25rem" }}>
-          Posts
-        </a>
-        <a href="/painel?view=new" style={{ ...(view === "new" ? { background: "rgba(255,255,255,.12)", color: "#fff" } : { color: "rgba(255,255,255,.7)" }), display: "block", padding: ".5rem .75rem", borderRadius: ".75rem", fontSize: ".875rem", fontWeight: 500, textDecoration: "none" }}>
-          Novo post
-        </a>
-        <div style={{ flex: 1 }} />
-        <a href="/" style={{ display: "block", padding: ".5rem .75rem", borderRadius: ".75rem", fontSize: ".875rem", color: "rgba(255,255,255,.5)", textDecoration: "none", marginBottom: ".25rem" }}>← Ver site</a>
-        <a href="/api/admin-logout" style={{ display: "block", padding: ".5rem .75rem", borderRadius: ".75rem", fontSize: ".875rem", color: "#f87171", textDecoration: "none" }}>Sair</a>
-      </aside>
+  // Fetch posts (used for list + finding the post to edit)
+  var postsData;
+  try {
+    var pr = await fetch('/api/admin-posts');
+    postsData = await pr.json();
+  } catch(e) {
+    postsData = { posts: [] };
+  }
 
-      {/* Main */}
-      <main style={{ flex: 1, padding: "2.5rem", overflowY: "auto" }}>
-        {showForm
-          ? <PostFormView post={editPost} error={error} />
-          : <PostsListView posts={posts ?? []} error={error} />}
-      </main>
-    </div>
-  );
-}
+  var posts = postsData.posts || [];
 
-/* ─── login ─────────────────────────────────────────────────────────── */
-function LoginView({ error }: { error?: string }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", padding: "2rem" }}>
-      <div style={{ background: "#fff", border: "1px solid #e5e1d8", borderRadius: "1.5rem", padding: "2.5rem", width: "100%", maxWidth: 400, boxShadow: "0 4px 24px rgba(0,0,0,.06)" }}>
-        <h1 style={{ fontSize: "1.5rem", fontWeight: 600, marginBottom: ".25rem", color: "#1a2744" }}>Admin · Dr. JP</h1>
-        <p style={{ color: "#8a8070", fontSize: ".875rem", marginBottom: "1.75rem" }}>Entre com sua conta para gerenciar o site.</p>
-        {error && (
-          <div style={{ background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: ".75rem", padding: ".75rem 1rem", fontSize: ".8rem", color: "#7a1c2e", marginBottom: "1rem" }}>
-            {decodeURIComponent(error)}
-          </div>
-        )}
-        <form method="POST" action="/api/admin-login">
-          <Field label="E-mail">
-            <input type="email" name="email" placeholder="seu@email.com" autoComplete="email"
-              style={{ width: "100%", border: "1px solid #e5e1d8", borderRadius: ".75rem", padding: ".6rem .875rem", fontSize: ".9rem", background: "#fff", outline: "none", fontFamily: "inherit", boxSizing: "border-box" }} />
-          </Field>
-          <Field label="Senha">
-            <input type="password" name="password" placeholder="••••••••" autoComplete="current-password"
-              style={{ width: "100%", border: "1px solid #e5e1d8", borderRadius: ".75rem", padding: ".6rem .875rem", fontSize: ".9rem", background: "#fff", outline: "none", fontFamily: "inherit", boxSizing: "border-box" }} />
-          </Field>
-          <button type="submit" style={{ width: "100%", background: "#1a2744", color: "#fff", border: "none", borderRadius: ".875rem", padding: ".75rem 1.25rem", fontSize: ".8125rem", fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", cursor: "pointer" }}>
-            Entrar
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
+  if (view === 'new') {
+    renderPostForm(null, error);
+  } else if (view === 'edit' && id) {
+    var post = posts.find(function(p) { return p.id === id; });
+    renderPostForm(post || null, error);
+  } else {
+    renderPostsList(posts, error);
+  }
+})();
 
-/* ─── posts list ─────────────────────────────────────────────────────── */
-function PostsListView({ posts, error }: { posts: Post[]; error?: string }) {
-  return (
-    <div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.75rem" }}>
-        <h1 style={{ fontSize: "1.625rem", fontWeight: 600 }}>Posts</h1>
-        <a href="/painel?view=new" style={{ background: "#7a1c2e", color: "#fff", borderRadius: ".875rem", padding: ".55rem 1.1rem", fontSize: ".8rem", fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", textDecoration: "none" }}>
-          + Novo post
-        </a>
-      </div>
-      {error && <div style={{ background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: ".75rem", padding: ".75rem 1rem", fontSize: ".8rem", color: "#7a1c2e", marginBottom: "1rem" }}>{decodeURIComponent(error)}</div>}
-      <table style={{ width: "100%", borderCollapse: "collapse", background: "#fff", borderRadius: "1rem", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,.06)" }}>
-        <thead>
-          <tr>
-            {["Título", "Status", "Data", ""].map((h) => (
-              <th key={h} style={{ background: "#f0ede8", padding: ".75rem 1rem", textAlign: "left", fontSize: ".75rem", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#8a8070" }}>{h}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {posts.length === 0 ? (
-            <tr><td colSpan={4} style={{ padding: "2rem", textAlign: "center", color: "#8a8070", fontSize: ".875rem" }}>Nenhum post ainda. <a href="/painel?view=new" style={{ color: "#7a1c2e" }}>Criar o primeiro →</a></td></tr>
-          ) : posts.map((p) => (
-            <tr key={p.id}>
-              <td style={{ padding: ".875rem 1rem", borderTop: "1px solid #e5e1d8", fontSize: ".875rem", verticalAlign: "middle" }}>
-                <strong>{p.title}</strong>
-                <br />
-                <span style={{ fontSize: ".75rem", color: "#8a8070" }}>{p.slug}</span>
-              </td>
-              <td style={{ padding: ".875rem 1rem", borderTop: "1px solid #e5e1d8", verticalAlign: "middle" }}>
-                <span style={p.status === "published"
-                  ? { display: "inline-block", padding: ".2rem .6rem", borderRadius: "999px", fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", background: "#d1fae5", color: "#065f46" }
-                  : { display: "inline-block", padding: ".2rem .6rem", borderRadius: "999px", fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", background: "#f0ede8", color: "#8a8070" }}>
-                  {p.status === "published" ? "Publicado" : "Rascunho"}
-                </span>
-              </td>
-              <td style={{ padding: ".875rem 1rem", borderTop: "1px solid #e5e1d8", color: "#8a8070", fontSize: ".8rem", whiteSpace: "nowrap", verticalAlign: "middle" }}>
-                {fmtDate(p.published_at ?? p.created_at)}
-              </td>
-              <td style={{ padding: ".875rem 1rem", borderTop: "1px solid #e5e1d8", verticalAlign: "middle" }}>
-                <div style={{ display: "flex", gap: ".5rem" }}>
-                  <a href={`/painel?view=edit&id=${p.id}`} style={{ background: "#4a7ab5", color: "#fff", borderRadius: ".75rem", padding: ".45rem .9rem", fontSize: ".75rem", fontWeight: 700, textDecoration: "none" }}>
-                    Editar
-                  </a>
-                  <a href={`/blog/${p.slug}`} target="_blank" rel="noreferrer" style={{ background: "transparent", border: "1px solid #e5e1d8", color: "#8a8070", borderRadius: ".75rem", padding: ".45rem .9rem", fontSize: ".75rem", fontWeight: 700, textDecoration: "none" }}>
-                    Ver
-                  </a>
-                  <form method="POST" action="/api/admin-delete-post" style={{ display: "inline" }}
-                    onSubmit={(e) => { if (!confirm(`Excluir "${p.title}"?`)) e.preventDefault(); }}>
-                    <input type="hidden" name="id" value={p.id} />
-                    <button type="submit" style={{ background: "transparent", border: "1px solid #fca5a5", color: "#7a1c2e", borderRadius: ".75rem", padding: ".45rem .9rem", fontSize: ".75rem", fontWeight: 700, cursor: "pointer" }}>
-                      Excluir
-                    </button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-/* ─── post form ──────────────────────────────────────────────────────── */
-function PostFormView({ post, error }: { post?: Post; error?: string }) {
-  const isEdit = !!post;
-  return (
-    <div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.75rem" }}>
-        <h1 style={{ fontSize: "1.625rem", fontWeight: 600 }}>{isEdit ? "Editar post" : "Novo post"}</h1>
-        <a href="/painel" style={{ background: "transparent", border: "1px solid #e5e1d8", color: "#8a8070", borderRadius: ".875rem", padding: ".55rem 1rem", fontSize: ".8rem", fontWeight: 700, textDecoration: "none" }}>
-          ← Voltar
-        </a>
-      </div>
-      {error && <div style={{ background: "#fef2f2", border: "1px solid #fca5a5", borderRadius: ".75rem", padding: ".75rem 1rem", fontSize: ".8rem", color: "#7a1c2e", marginBottom: "1rem" }}>{decodeURIComponent(error)}</div>}
-      <div style={{ background: "#fff", border: "1px solid #e5e1d8", borderRadius: "1.25rem", padding: "2rem", maxWidth: 860 }}>
-        <form method="POST" action="/api/admin-save-post">
-          {isEdit && <input type="hidden" name="id" value={post!.id} />}
-          <Field label="Título">
-            <input type="text" name="title" defaultValue={post?.title ?? ""} placeholder="Título do artigo" required
-              style={{ width: "100%", border: "1px solid #e5e1d8", borderRadius: ".75rem", padding: ".6rem .875rem", fontSize: ".9rem", background: "#fff", outline: "none", fontFamily: "inherit", boxSizing: "border-box" }} />
-          </Field>
-          <Field label="Resumo (excerpt)">
-            <textarea name="excerpt" rows={2} defaultValue={post?.excerpt ?? ""} placeholder="Frase de abertura — aparece na listagem e no header do post"
-              style={{ width: "100%", border: "1px solid #e5e1d8", borderRadius: ".75rem", padding: ".6rem .875rem", fontSize: ".9rem", fontFamily: "inherit", lineHeight: 1.7, resize: "vertical", boxSizing: "border-box" }} />
-          </Field>
-          <Field label="Conteúdo (parágrafos separados por linha em branco)">
-            <textarea name="content" rows={22} defaultValue={post?.content ?? ""} placeholder={"Escreva o artigo aqui.\n\nSepare os parágrafos com uma linha em branco."}
-              style={{ width: "100%", border: "1px solid #e5e1d8", borderRadius: ".75rem", padding: ".6rem .875rem", fontSize: ".9rem", fontFamily: "inherit", lineHeight: 1.7, resize: "vertical", boxSizing: "border-box" }} />
-          </Field>
-          <Field label="URL da imagem de capa">
-            <input type="url" name="image" defaultValue={post?.featured_image_url ?? ""} placeholder="https://..."
-              style={{ width: "100%", border: "1px solid #e5e1d8", borderRadius: ".75rem", padding: ".6rem .875rem", fontSize: ".9rem", background: "#fff", outline: "none", fontFamily: "inherit", boxSizing: "border-box" }} />
-          </Field>
-          <Field label="Status">
-            <select name="status" defaultValue={post?.status ?? "draft"}
-              style={{ width: "100%", border: "1px solid #e5e1d8", borderRadius: ".75rem", padding: ".6rem .875rem", fontSize: ".9rem", fontFamily: "inherit", background: "#fff" }}>
-              <option value="draft">Rascunho</option>
-              <option value="published">Publicado</option>
-            </select>
-          </Field>
-          <div style={{ display: "flex", gap: ".75rem", marginTop: ".5rem" }}>
-            <button type="submit" style={{ background: "#1a2744", color: "#fff", border: "none", borderRadius: ".875rem", padding: ".65rem 1.5rem", fontSize: ".8125rem", fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", cursor: "pointer" }}>
-              {isEdit ? "Salvar alterações" : "Criar post"}
-            </button>
-            <a href="/painel" style={{ background: "transparent", border: "1px solid #e5e1d8", color: "#8a8070", borderRadius: ".875rem", padding: ".65rem 1.25rem", fontSize: ".8125rem", fontWeight: 700, textDecoration: "none" }}>
-              Cancelar
-            </a>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-/* ─── helpers ───────────────────────────────────────────────────────── */
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div style={{ marginBottom: "1.1rem" }}>
-      <label style={{ display: "block", fontSize: ".8125rem", fontWeight: 600, marginBottom: ".4rem", color: "#1a2744" }}>{label}</label>
-      {children}
-    </div>
-  );
-}
+})();
+`;
