@@ -231,6 +231,39 @@ async function handleAdminDeletePost(req: Request): Promise<Response> {
   return redirect("/painel");
 }
 
+async function handleImageUpload(req: Request): Promise<Response> {
+  const token = getAdminToken(req);
+  if (!token) return Response.json({ error: "Não autorizado" }, { status: 401 });
+
+  let formData: FormData;
+  try { formData = await req.formData(); } catch {
+    return Response.json({ error: "Form inválido" }, { status: 400 });
+  }
+
+  const file = formData.get("file") as File | null;
+  if (!file || !file.type.startsWith("image/")) {
+    return Response.json({ error: "Arquivo inválido — envie uma imagem" }, { status: 400 });
+  }
+
+  const ext = (file.name.split(".").pop() ?? "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const buffer = await file.arrayBuffer();
+
+  const up = await fetch(`${SUPABASE_URL}/storage/v1/object/blog-imagens/${filename}`, {
+    method: "POST",
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${token}`, "Content-Type": file.type },
+    body: buffer,
+  });
+
+  if (!up.ok) {
+    const err = await up.text();
+    return Response.json({ error: `Storage: ${err.slice(0, 120)}` }, { status: 500 });
+  }
+
+  const url = `${SUPABASE_URL}/storage/v1/object/public/blog-imagens/${filename}`;
+  return Response.json({ url });
+}
+
 // ─── Admin page HTML (no React/TanStack, pure vanilla) ───────────────────────
 
 function handlePainelPage(): Response {
@@ -302,6 +335,37 @@ document.addEventListener("submit", function(e) {
     var t = f.getAttribute("data-title") || "este item";
     if (!confirm('Excluir "' + t + '"?')) e.preventDefault();
   }
+});
+
+document.addEventListener("click", function(e) {
+  if (!e.target || e.target.id !== "img-upload-btn") return;
+  var fileInput = document.getElementById("img-file");
+  var file = fileInput && fileInput.files && fileInput.files[0];
+  var status = document.getElementById("img-status");
+  if (!file) { if (status) status.textContent = "Escolha uma imagem primeiro."; return; }
+  if (status) status.textContent = "Enviando...";
+  var fd = new FormData();
+  fd.append("file", file);
+  fetch("/api/upload-image", { method: "POST", body: fd })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) { if (status) status.textContent = "Erro: " + data.error; return; }
+      var ta = document.querySelector("textarea[name=content]");
+      if (ta) {
+        var start = ta.selectionStart || ta.value.length;
+        var before = ta.value.substring(0, start);
+        var after = ta.value.substring(ta.selectionEnd || start);
+        var pre = (before === "" || before.endsWith("\n\n")) ? "" : "\n\n";
+        var suf = (after === "" || after.startsWith("\n\n")) ? "" : "\n\n";
+        ta.value = before + pre + data.url + suf + after;
+        var pos = start + pre.length + data.url.length + suf.length;
+        ta.selectionStart = ta.selectionEnd = pos;
+        ta.focus();
+      }
+      if (status) status.textContent = "Imagem inserida no conteudo";
+      if (fileInput) fileInput.value = "";
+    })
+    .catch(function() { if (status) status.textContent = "Erro ao enviar."; });
 });
 
 function params() { return new URLSearchParams(location.search); }
@@ -384,6 +448,15 @@ function renderPostForm(post, error) {
     '<div class="fld"><label>Conteúdo</label>' +
     '<p style="font-size:.75rem;color:#8a8070;margin-bottom:.4rem">Parágrafos separados por linha em branco. Para imagem no meio do texto, cole a URL sozinha em um parágrafo (ex: https://site.com/foto.jpg)</p>' +
     '<textarea name="content" rows="22" placeholder="Escreva o artigo aqui...">' + esc(post && post.content ? post.content : "") + "</textarea></div>" +
+    '<div class="fld" style="background:#f8f6f2;border:1px solid #e5e1d8;border-radius:.75rem;padding:1rem">' +
+    '<label style="margin-bottom:.5rem">Upload de imagem para o conteúdo</label>' +
+    '<p style="font-size:.75rem;color:#8a8070;margin-bottom:.75rem">Escolha um arquivo — a URL será inserida no cursor do campo de conteúdo.</p>' +
+    '<div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">' +
+    '<input type="file" id="img-file" accept="image/*" style="font-size:.85rem;flex:1;min-width:0">' +
+    '<button type="button" id="img-upload-btn" class="btn bb" style="white-space:nowrap">Enviar imagem</button>' +
+    '</div>' +
+    '<span id="img-status" style="display:block;margin-top:.5rem;font-size:.8rem;color:#8a8070"></span>' +
+    '</div>' +
     '<div class="fld"><label>URL da imagem de capa</label><input type="url" name="image" value="' + esc(post && post.featured_image_url ? post.featured_image_url : "") + '" placeholder="https://..."></div>' +
     '<div class="fld"><label>Status</label><select name="status">' +
     '<option value="draft"' + (!post || post.status !== "published" ? " selected" : "") + ">Rascunho</option>" +
@@ -458,6 +531,7 @@ async function routeAdminRequest(req: Request): Promise<Response | null> {
   if (path === "/api/admin-posts" && method === "GET") return handleAdminPosts(req);
   if (path === "/api/admin-save-post" && method === "POST") return handleAdminSavePost(req);
   if (path === "/api/admin-delete-post" && method === "POST") return handleAdminDeletePost(req);
+  if (path === "/api/upload-image" && method === "POST") return handleImageUpload(req);
 
   return null;
 }
