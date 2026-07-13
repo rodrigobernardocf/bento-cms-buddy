@@ -67,7 +67,11 @@ function isImgUrl(text: string) {
 
 function PostPage() {
   const { post, related } = Route.useLoaderData();
-  const paragraphs = (post.content ?? "").split(/\n{2,}/).filter(Boolean);
+  const paragraphs = (post.content ?? "")
+    .replace(/\r\n/g, "\n")
+    .split(/\n{2,}/)
+    .map(p => p.trim())
+    .filter(Boolean);
 
   return (
     <div className="min-h-screen bg-classic-light font-sans text-classic-navy">
