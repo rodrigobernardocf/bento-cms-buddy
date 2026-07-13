@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TratamentosRouteImport } from './routes/tratamentos'
 import { Route as ReabilitacaoObjetivaOnlineRouteImport } from './routes/reabilitacao-objetiva-online'
+import { Route as PainelRouteImport } from './routes/painel'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as EspecialistaRouteImport } from './routes/especialista'
@@ -18,6 +19,8 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AgendarRouteImport } from './routes/agendar'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminPostsRouteImport } from './routes/admin.posts'
@@ -36,6 +39,11 @@ const ReabilitacaoObjetivaOnlineRoute =
     path: '/reabilitacao-objetiva-online',
     getParentRoute: () => rootRouteImport,
   } as any)
+const PainelRoute = PainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -70,6 +78,16 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BlogRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
@@ -106,10 +124,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/agendar': typeof AgendarRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/especialista': typeof EspecialistaRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/painel': typeof PainelRoute
   '/reabilitacao-objetiva-online': typeof ReabilitacaoObjetivaOnlineRoute
   '/tratamentos': typeof TratamentosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -117,16 +136,18 @@ export interface FileRoutesByFullPath {
   '/admin/posts': typeof AdminPostsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/agendar': typeof AgendarRoute
-  '/blog': typeof BlogRoute
   '/especialista': typeof EspecialistaRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/painel': typeof PainelRoute
   '/reabilitacao-objetiva-online': typeof ReabilitacaoObjetivaOnlineRoute
   '/tratamentos': typeof TratamentosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -134,6 +155,8 @@ export interface FileRoutesByTo {
   '/admin/posts': typeof AdminPostsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog': typeof BlogIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
 }
 export interface FileRoutesById {
@@ -141,10 +164,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/agendar': typeof AgendarRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/especialista': typeof EspecialistaRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/painel': typeof PainelRoute
   '/reabilitacao-objetiva-online': typeof ReabilitacaoObjetivaOnlineRoute
   '/tratamentos': typeof TratamentosRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -152,6 +176,8 @@ export interface FileRoutesById {
   '/admin/posts': typeof AdminPostsRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
 }
 export interface FileRouteTypes {
@@ -164,6 +190,7 @@ export interface FileRouteTypes {
     | '/especialista'
     | '/home'
     | '/login'
+    | '/painel'
     | '/reabilitacao-objetiva-online'
     | '/tratamentos'
     | '/admin/dashboard'
@@ -171,16 +198,18 @@ export interface FileRouteTypes {
     | '/admin/posts'
     | '/admin/settings'
     | '/admin/users'
+    | '/blog/$slug'
+    | '/blog/'
     | '/admin/posts/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/agendar'
-    | '/blog'
     | '/especialista'
     | '/home'
     | '/login'
+    | '/painel'
     | '/reabilitacao-objetiva-online'
     | '/tratamentos'
     | '/admin/dashboard'
@@ -188,6 +217,8 @@ export interface FileRouteTypes {
     | '/admin/posts'
     | '/admin/settings'
     | '/admin/users'
+    | '/blog/$slug'
+    | '/blog'
     | '/admin/posts/new'
   id:
     | '__root__'
@@ -198,6 +229,7 @@ export interface FileRouteTypes {
     | '/especialista'
     | '/home'
     | '/login'
+    | '/painel'
     | '/reabilitacao-objetiva-online'
     | '/tratamentos'
     | '/admin/dashboard'
@@ -205,6 +237,8 @@ export interface FileRouteTypes {
     | '/admin/posts'
     | '/admin/settings'
     | '/admin/users'
+    | '/blog/$slug'
+    | '/blog/'
     | '/admin/posts/new'
   fileRoutesById: FileRoutesById
 }
@@ -212,10 +246,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AgendarRoute: typeof AgendarRoute
-  BlogRoute: typeof BlogRoute
+  BlogRoute: typeof BlogRouteWithChildren
   EspecialistaRoute: typeof EspecialistaRoute
   HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
+  PainelRoute: typeof PainelRoute
   ReabilitacaoObjetivaOnlineRoute: typeof ReabilitacaoObjetivaOnlineRoute
   TratamentosRoute: typeof TratamentosRoute
 }
@@ -234,6 +269,13 @@ declare module '@tanstack/react-router' {
       path: '/reabilitacao-objetiva-online'
       fullPath: '/reabilitacao-objetiva-online'
       preLoaderRoute: typeof ReabilitacaoObjetivaOnlineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/painel': {
+      id: '/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof PainelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -284,6 +326,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/admin/users': {
       id: '/admin/users'
@@ -360,17 +416,40 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AgendarRoute: AgendarRoute,
-  BlogRoute: BlogRoute,
+  BlogRoute: BlogRouteWithChildren,
   EspecialistaRoute: EspecialistaRoute,
   HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
+  PainelRoute: PainelRoute,
   ReabilitacaoObjetivaOnlineRoute: ReabilitacaoObjetivaOnlineRoute,
   TratamentosRoute: TratamentosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

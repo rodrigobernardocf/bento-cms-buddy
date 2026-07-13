@@ -65,6 +65,15 @@ function isImgUrl(text: string) {
   return /^https?:\/\/\S+\.(jpg|jpeg|png|webp|gif|avif|svg)(\?[^\s]*)?$/i.test(text.trim());
 }
 
+function isBareUrl(text: string) {
+  return /^https?:\/\/\S+$/i.test(text.trim());
+}
+
+function bareUrlLabel(url: string) {
+  if (/chat\.whatsapp\.com|wa\.me/i.test(url)) return "Entrar no grupo no WhatsApp";
+  return "Acessar link";
+}
+
 function PostPage() {
   const { post, related } = Route.useLoaderData();
   const paragraphs = (post.content ?? "")
@@ -129,6 +138,17 @@ function PostPage() {
                   <h2 key={i} className="text-2xl font-semibold text-classic-navy mt-10 mb-2 leading-snug">
                     {p.slice(3)}
                   </h2>
+                ) : isBareUrl(p) ? (
+                  <div key={i} className="text-center py-2">
+                    <a
+                      href={p.trim()}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-3 rounded-full bg-classic-wine px-8 py-4 text-xs font-bold uppercase tracking-widest text-white shadow-xl transition hover:bg-classic-brown"
+                    >
+                      {bareUrlLabel(p)} →
+                    </a>
+                  </div>
                 ) : (
                   <p key={i}>{p}</p>
                 )
