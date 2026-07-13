@@ -125,6 +125,10 @@ function PostPage() {
               {paragraphs.map((p, i) =>
                 isImgUrl(p) ? (
                   <img key={i} src={p.trim()} alt="" className="w-full rounded-2xl shadow-md" />
+                ) : p.startsWith("## ") ? (
+                  <h2 key={i} className="text-2xl font-semibold text-classic-navy mt-10 mb-2 leading-snug">
+                    {p.slice(3)}
+                  </h2>
                 ) : (
                   <p key={i}>{p}</p>
                 )
