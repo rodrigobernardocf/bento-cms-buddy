@@ -249,17 +249,27 @@ async function handleImageUpload(req: Request): Promise<Response> {
   }
 
   const file = formData.get("file") as File | null;
-  if (!file || !file.type.startsWith("image/")) {
+  if (!file || !file.name) {
     return Response.json({ error: "Arquivo inválido — envie uma imagem" }, { status: 400 });
   }
 
   const ext = (file.name.split(".").pop() ?? "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const mimeMap: Record<string, string> = {
+    jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png",
+    webp: "image/webp", gif: "image/gif", avif: "image/avif", svg: "image/svg+xml",
+  };
+  const contentType = file.type || mimeMap[ext] || "image/jpeg";
+
+  if (!contentType.startsWith("image/")) {
+    return Response.json({ error: `Tipo não suportado: ${ext}` }, { status: 400 });
+  }
+
   const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
   const buffer = await file.arrayBuffer();
 
   const up = await fetch(`${SUPABASE_URL}/storage/v1/object/blog-imagens/${filename}`, {
     method: "POST",
-    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${token}`, "Content-Type": file.type },
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${token}`, "Content-Type": contentType },
     body: buffer,
   });
 
