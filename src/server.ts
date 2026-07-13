@@ -363,8 +363,8 @@ document.addEventListener("click", function(e) {
         var start = ta.selectionStart || ta.value.length;
         var before = ta.value.substring(0, start);
         var after = ta.value.substring(ta.selectionEnd || start);
-        var pre = (before === "" || before.endsWith("\n\n")) ? "" : "\n\n";
-        var suf = (after === "" || after.startsWith("\n\n")) ? "" : "\n\n";
+        var pre = (before === "" || before.endsWith("\\n\\n")) ? "" : "\\n\\n";
+        var suf = (after === "" || after.startsWith("\\n\\n")) ? "" : "\\n\\n";
         ta.value = before + pre + data.url + suf + after;
         var pos = start + pre.length + data.url.length + suf.length;
         ta.selectionStart = ta.selectionEnd = pos;
