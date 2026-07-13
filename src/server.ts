@@ -126,10 +126,18 @@ async function handleSessionCheck(req: Request): Promise<Response> {
   const token = getAdminToken(req);
   if (!token) return Response.json({ authed: false });
 
-  const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${token}` },
-  });
-  return Response.json({ authed: res.ok });
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 5000);
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${token}` },
+      signal: ctrl.signal,
+    });
+    clearTimeout(timer);
+    return Response.json({ authed: res.ok });
+  } catch {
+    return Response.json({ authed: false });
+  }
 }
 
 async function handleAdminPosts(req: Request): Promise<Response> {
