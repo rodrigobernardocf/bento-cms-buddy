@@ -158,14 +158,15 @@ function PostPage() {
             {/* CTA inline no fim do artigo */}
             <div className="mt-16 rounded-3xl bg-classic-navy px-8 py-10 text-white text-center">
               <p className="text-lg font-medium leading-snug max-w-md mx-auto">
-                Quer aplicar o checklist completo de diagnóstico do Método RAIZ no seu consultório?
-                Conheça a Reabilitação Objetiva.
+                Quer ter acesso a dicas, insights e como essa todos os dias? Entre na nossa comunidade!
               </p>
               <a
-                href="/reabilitacao-objetiva-online"
+                href="https://chat.whatsapp.com/HT7tVn2LZku1EZ436IGqhY?mode=gi_t"
+                target="_blank"
+                rel="noreferrer"
                 className="mt-6 inline-flex items-center gap-3 rounded-full bg-classic-wine px-8 py-4 text-xs font-bold uppercase tracking-widest text-white shadow-xl transition hover:bg-classic-brown"
               >
-                Conhecer a Reabilitação Objetiva →
+                Entrar na comunidade →
               </a>
             </div>
           </article>
@@ -176,17 +177,16 @@ function PostPage() {
             {/* Card CTA sticky */}
             <div className="sticky top-28 space-y-6">
               <div className="rounded-2xl bg-classic-navy p-6 text-white">
-                <p className="text-[11px] font-bold uppercase tracking-widest text-classic-pastel/70 mb-3">
-                  Método RAIZ
-                </p>
                 <p className="text-sm font-medium leading-snug">
                   Aprenda a conduzir reabilitações complexas com previsibilidade e protocolo.
                 </p>
                 <a
-                  href="/reabilitacao-objetiva-online"
+                  href="https://www.youtube.com/@drjoaopaulosneto"
+                  target="_blank"
+                  rel="noreferrer"
                   className="mt-4 block text-center rounded-xl bg-classic-wine px-4 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-classic-brown"
                 >
-                  Conhecer o Método →
+                  Me acompanhe no YouTube →
                 </a>
               </div>
 
@@ -198,7 +198,9 @@ function PostPage() {
                   Dr. João Paulo Silva-Neto — Reabilitação Oral e Estética.
                 </p>
                 <a
-                  href="/agendar"
+                  href="https://wa.me/5584998992112"
+                  target="_blank"
+                  rel="noreferrer"
                   className="mt-4 block text-center rounded-xl bg-classic-pastel px-4 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-classic-navy"
                 >
                   Agendar Avaliação
